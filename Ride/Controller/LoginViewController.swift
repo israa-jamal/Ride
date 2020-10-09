@@ -11,22 +11,23 @@ import UIKit
 class LoginViewController: UIViewController {
    
     @IBOutlet weak var emailTextfield: UITextField!
-    @IBOutlet weak var label: UILabel!
+    @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var button: UIButton!
+    @IBOutlet weak var passwordTextfield: UITextField!
     @IBAction func loginButton(_ sender: UIButton) {
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        changeUI()
+        ConfigureUI()
         
         // Do any additional setup after loading the view.
     }
-    func changeUI(){
-        emailTextfield.keyboardAppearance = .dark
+    func ConfigureUI(){
         emailTextfield.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white ])
         button.layer.cornerRadius = 5
+        navigationController?.navigationBar.barStyle = .black
 
     }
     
