@@ -63,7 +63,6 @@
 				04313549252FADAE0019D6D0 /* Controller */,
 				04313548252FADAA0019D6D0 /* View */,
 				04313547252FADA10019D6D0 /* Model */,
-				04313539252FAA750019D6D0 /* Main.storyboard */,
 				0431353C252FAA7D0019D6D0 /* Assets.xcassets */,
 				0431353E252FAA7D0019D6D0 /* LaunchScreen.storyboard */,
 				04313541252FAA7D0019D6D0 /* Info.plist */,
@@ -81,6 +80,7 @@
 		04313548252FADAA0019D6D0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				04313539252FAA750019D6D0 /* Main.storyboard */,
 			);
 			path = View;
 			sourceTree = "<group>";
