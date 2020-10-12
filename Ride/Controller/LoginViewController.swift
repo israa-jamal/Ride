@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 class LoginViewController: UIViewController {
    
@@ -14,21 +15,33 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var titleLabel: UILabel!
     @IBOutlet weak var button: UIButton!
     @IBOutlet weak var passwordTextfield: UITextField!
-    @IBAction func loginButton(_ sender: UIButton) {
-    }
+    
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        ConfigureUI()
+//        ConfigureUI()
         
         // Do any additional setup after loading the view.
     }
-    func ConfigureUI(){
-        emailTextfield.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white ])
-        button.layer.cornerRadius = 5
-        navigationController?.navigationBar.barStyle = .black
-
+    @IBAction func loginButton(_ sender: UIButton) {
+        guard let email = emailTextfield.text else {return}
+        guard let password = passwordTextfield.text else {return}
+        
+        Auth.auth().signIn(withEmail: email, password: password) { (result, error) in
+            if let error = error {
+                print("Sorry there was an error signing you in \(error.localizedDescription)")
+                return
+            }
+            print("successfully signed in")
+            self.dismiss(animated: true, completion: nil)
+        }
     }
+//    func ConfigureUI(){
+//        emailTextfield.attributedPlaceholder = NSAttributedString(string: "Email", attributes: [NSAttributedString.Key.foregroundColor : UIColor.white ])
+//        button.layer.cornerRadius = 5
+//        navigationController?.navigationBar.barStyle = .black
+//
+//    }
     
 }

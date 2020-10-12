@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="0VT-QM-8VC">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="kCV-dm-iWy">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
@@ -176,7 +176,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="928.98550724637687" y="81.696428571428569"/>
+            <point key="canvasLocation" x="2749.275362318841" y="81.696428571428569"/>
         </scene>
         <!--Signup View Controller-->
         <scene sceneID="bub-sY-fxW">
@@ -248,7 +248,7 @@
                                                 <color key="backgroundColor" name="Background"/>
                                                 <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
-                                                <textInputTraits key="textInputTraits" secureTextEntry="YES"/>
+                                                <textInputTraits key="textInputTraits"/>
                                                 <userDefinedRuntimeAttributes>
                                                     <userDefinedRuntimeAttribute type="color" keyPath="_placeholderLabel.textColor">
                                                         <color key="value" name="Label"/>
@@ -435,25 +435,55 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="MH3-aR-2NG" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1784.057971014493" y="81.696428571428569"/>
+            <point key="canvasLocation" x="3604.347826086957" y="81.696428571428569"/>
+        </scene>
+        <!--Home View Controller-->
+        <scene sceneID="9jd-4R-15b">
+            <objects>
+                <viewController id="iLD-43-jwv" customClass="HomeViewController" customModule="Ride" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="hi9-RQ-RVO">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="NEi-F9-04G">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            </mapView>
+                        </subviews>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                        <constraints>
+                            <constraint firstItem="NEi-F9-04G" firstAttribute="leading" secondItem="ksM-Rm-oWU" secondAttribute="leading" id="3GJ-OB-q4b"/>
+                            <constraint firstItem="NEi-F9-04G" firstAttribute="top" secondItem="hi9-RQ-RVO" secondAttribute="top" id="Hpg-Tp-ZUs"/>
+                            <constraint firstItem="NEi-F9-04G" firstAttribute="trailing" secondItem="ksM-Rm-oWU" secondAttribute="trailing" id="YUe-R6-Tk4"/>
+                            <constraint firstAttribute="bottom" secondItem="NEi-F9-04G" secondAttribute="bottom" id="jCj-0D-Xt3"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="ksM-Rm-oWU"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="nyo-wq-Vu3"/>
+                    <connections>
+                        <outlet property="map" destination="NEi-F9-04G" id="0oP-e0-oKk"/>
+                        <segue destination="BYZ-38-t0r" kind="show" identifier="goToLogin" id="zYv-Vw-Oot"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5sL-Ra-EYI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1681" y="82"/>
         </scene>
         <!--Navigation Controller-->
-        <scene sceneID="0Kg-gk-WaM">
+        <scene sceneID="NM9-TI-hrB">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="0VT-QM-8VC" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="kCV-dm-iWy" sceneMemberID="viewController">
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" id="8Jw-mO-pX6"/>
-                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="WUQ-tS-Zcv">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="eHV-zM-0E8">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
                     <connections>
-                        <segue destination="BYZ-38-t0r" kind="relationship" relationship="rootViewController" id="8cj-pr-KtW"/>
+                        <segue destination="iLD-43-jwv" kind="relationship" relationship="rootViewController" id="Yhw-Ni-ynd"/>
                     </connections>
                 </navigationController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="p48-q0-PA6" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="GEA-Qa-9M8" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="18.840579710144929" y="81.696428571428569"/>
+            <point key="canvasLocation" x="686" y="82"/>
         </scene>
     </scenes>
     <resources>
@@ -465,13 +495,13 @@
             <color red="0.070000000298023224" green="0.034000001847743988" blue="0.18500000238418579" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Button">
-            <color red="0.12471746722900509" green="0.44486352277188018" blue="0.92457170050761417" alpha="0.98000001907348633" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.125" green="0.44499999284744263" blue="0.92500001192092896" alpha="0.98000001907348633" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Label">
             <color red="0.85799998044967651" green="0.85799998044967651" blue="0.85799998044967651" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="White">
-            <color red="0.99999600649999998" green="1" blue="1" alpha="0.87095997431506844" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="1" green="1" blue="1" alpha="0.87099999189376831" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
     </resources>
 </document>
