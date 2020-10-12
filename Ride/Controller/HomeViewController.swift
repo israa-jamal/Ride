@@ -12,15 +12,23 @@ import MapKit
 
 class HomeViewController: UIViewController {
 
+    private let locationManger = CLLocationManager()
     @IBOutlet weak var map: MKMapView!
     override func viewDidLoad() {
         super.viewDidLoad()
+        enableLocationServices()
+        locationManger.delegate = self
+        configureMapView()
 //       map.isHidden = true
 // signOut()
         checkIfUserIsLogedIn()
         // Do any additional setup after loading the view.
     }
     
+    func configureMapView(){
+        map.showsUserLocation = true
+        map.userTrackingMode = .follow
+    }
     
     func checkIfUserIsLogedIn(){
        if Auth.auth().currentUser?.uid == nil{
@@ -50,4 +58,27 @@ class HomeViewController: UIViewController {
         }
     }
 
+}
+extension HomeViewController: CLLocationManagerDelegate{
+    func enableLocationServices(){
+        switch CLLocationManager.authorizationStatus() {
+        case .denied , .restricted , .notDetermined :
+            print("Location is not accessed")
+            locationManger.requestWhenInUseAuthorization()
+        case .authorizedWhenInUse:
+            print("Location is authorized")
+            locationManger.requestAlwaysAuthorization()
+        case .authorizedAlways:
+            locationManger.startUpdatingLocation()
+            locationManger.desiredAccuracy = kCLLocationAccuracyBest
+        @unknown default:
+            break
+        }
+    }
+    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
+        if status == .authorizedWhenInUse {
+            locationManger.requestAlwaysAuthorization()
+
+        }
+    }
 }
