@@ -176,7 +176,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2749.275362318841" y="81.696428571428569"/>
+            <point key="canvasLocation" x="2687" y="82"/>
         </scene>
         <!--Signup View Controller-->
         <scene sceneID="bub-sY-fxW">
@@ -448,25 +448,66 @@
                             <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="NEi-F9-04G">
                                 <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                             </mapView>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sWZ-pf-yD9">
+                                <rect key="frame" x="29.5" y="76" width="355" height="50"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="FXV-AF-vkt">
+                                        <rect key="frame" x="16" y="22" width="6" height="6"/>
+                                        <color key="backgroundColor" cocoaTouchSystemColor="darkTextColor"/>
+                                        <constraints>
+                                            <constraint firstAttribute="height" constant="6" id="G7m-dC-KWg"/>
+                                            <constraint firstAttribute="width" constant="6" id="JVF-gx-Fc3"/>
+                                        </constraints>
+                                    </view>
+                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Where to?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7Co-0o-pCy">
+                                        <rect key="frame" x="42" y="14.5" width="313" height="21"/>
+                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                        <color key="textColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                        <nil key="highlightedColor"/>
+                                    </label>
+                                </subviews>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
+                                <gestureRecognizers/>
+                                <constraints>
+                                    <constraint firstItem="FXV-AF-vkt" firstAttribute="centerY" secondItem="sWZ-pf-yD9" secondAttribute="centerY" id="3G5-Lj-t4X"/>
+                                    <constraint firstItem="7Co-0o-pCy" firstAttribute="centerY" secondItem="sWZ-pf-yD9" secondAttribute="centerY" id="ETm-AH-OVU"/>
+                                    <constraint firstAttribute="height" constant="50" id="MSR-zY-WVV"/>
+                                    <constraint firstAttribute="trailing" secondItem="7Co-0o-pCy" secondAttribute="trailing" id="tOt-0v-BnR"/>
+                                    <constraint firstItem="FXV-AF-vkt" firstAttribute="leading" secondItem="sWZ-pf-yD9" secondAttribute="leading" constant="16" id="xXy-YQ-TDP"/>
+                                    <constraint firstItem="7Co-0o-pCy" firstAttribute="leading" secondItem="FXV-AF-vkt" secondAttribute="trailing" constant="20" id="zUk-SD-KCE"/>
+                                </constraints>
+                                <connections>
+                                    <outletCollection property="gestureRecognizers" destination="hVs-v6-Cvb" appends="YES" id="fnF-Sm-ybl"/>
+                                </connections>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" systemColor="systemBackgroundColor" cocoaTouchSystemColor="whiteColor"/>
                         <constraints>
                             <constraint firstItem="NEi-F9-04G" firstAttribute="leading" secondItem="ksM-Rm-oWU" secondAttribute="leading" id="3GJ-OB-q4b"/>
+                            <constraint firstItem="sWZ-pf-yD9" firstAttribute="top" secondItem="ksM-Rm-oWU" secondAttribute="top" constant="32" id="99A-zs-qP5"/>
                             <constraint firstItem="NEi-F9-04G" firstAttribute="top" secondItem="hi9-RQ-RVO" secondAttribute="top" id="Hpg-Tp-ZUs"/>
+                            <constraint firstItem="sWZ-pf-yD9" firstAttribute="centerX" secondItem="hi9-RQ-RVO" secondAttribute="centerX" id="WL0-Bp-tSB"/>
                             <constraint firstItem="NEi-F9-04G" firstAttribute="trailing" secondItem="ksM-Rm-oWU" secondAttribute="trailing" id="YUe-R6-Tk4"/>
                             <constraint firstAttribute="bottom" secondItem="NEi-F9-04G" secondAttribute="bottom" id="jCj-0D-Xt3"/>
+                            <constraint firstItem="sWZ-pf-yD9" firstAttribute="width" secondItem="NEi-F9-04G" secondAttribute="width" multiplier="6:7" id="zPD-Vm-wpf"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ksM-Rm-oWU"/>
                     </view>
                     <navigationItem key="navigationItem" id="nyo-wq-Vu3"/>
                     <connections>
+                        <outlet property="inputActivationView" destination="sWZ-pf-yD9" id="nQT-zi-Ddb"/>
                         <outlet property="map" destination="NEi-F9-04G" id="0oP-e0-oKk"/>
                         <segue destination="BYZ-38-t0r" kind="show" identifier="goToLogin" id="zYv-Vw-Oot"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5sL-Ra-EYI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <tapGestureRecognizer id="hVs-v6-Cvb">
+                    <connections>
+                        <action selector="chooseLocation:" destination="iLD-43-jwv" id="MBo-Ld-W4H"/>
+                    </connections>
+                </tapGestureRecognizer>
             </objects>
-            <point key="canvasLocation" x="1681" y="82"/>
+            <point key="canvasLocation" x="1679.7101449275362" y="81.696428571428569"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="NM9-TI-hrB">
@@ -492,7 +533,7 @@
         <image name="ic_mail_outline_white_2x" width="48" height="48"/>
         <image name="ic_person_outline_white_2x" width="48" height="48"/>
         <namedColor name="Background">
-            <color red="0.070000000298023224" green="0.034000001847743988" blue="0.18500000238418579" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+            <color red="0.030999999493360519" green="0.0" blue="0.125" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="Button">
             <color red="0.125" green="0.44499999284744263" blue="0.92500001192092896" alpha="0.98000001907348633" colorSpace="custom" customColorSpace="sRGB"/>
