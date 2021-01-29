@@ -32,14 +32,16 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ConfigureUI()
+        hideKeyboardWhenTappedAround()
+
     }
     
     //MARK: Setup UI
 
     func ConfigureUI(){
         signInButton.layer.cornerRadius = 5
-        emailTextfield.addPlaceHolder(text: "Email")
-        passwordTextfield.addPlaceHolder(text: "Password")
+        emailTextfield.addPlaceHolder(text: "Email", color: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.5))
+        passwordTextfield.addPlaceHolder(text: "Password", color: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.5))
     }
    
     //MARK: Actions

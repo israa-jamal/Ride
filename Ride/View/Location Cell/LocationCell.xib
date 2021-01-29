@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17506" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17505"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -16,17 +17,17 @@
                 <rect key="frame" x="0.0" y="0.0" width="320" height="74"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" spacing="4" translatesAutoresizingMaskIntoConstraints="NO" id="6Gf-q9-WEm">
-                        <rect key="frame" x="12" y="0.0" width="308" height="74"/>
+                    <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="6Gf-q9-WEm">
+                        <rect key="frame" x="12" y="4" width="308" height="66"/>
                         <subviews>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="75 Ramis" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zKO-PA-907">
-                                <rect key="frame" x="0.0" y="0.0" width="308" height="35"/>
+                                <rect key="frame" x="0.0" y="0.0" width="308" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="75 Ramsis Street, Downtown, Cairo" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="h1G-Ii-3F4">
-                                <rect key="frame" x="0.0" y="39" width="308" height="35"/>
+                                <rect key="frame" x="0.0" y="33" width="308" height="33"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <color key="textColor" white="0.66666666669999997" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -35,8 +36,8 @@
                     </stackView>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="bottom" secondItem="6Gf-q9-WEm" secondAttribute="bottom" id="PgP-yt-C8Y"/>
-                    <constraint firstItem="6Gf-q9-WEm" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="S89-8n-UUL"/>
+                    <constraint firstItem="6Gf-q9-WEm" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="4" id="Lw2-bn-4ku"/>
+                    <constraint firstAttribute="bottom" secondItem="6Gf-q9-WEm" secondAttribute="bottom" constant="4" id="QvS-ik-YFs"/>
                     <constraint firstAttribute="trailing" secondItem="6Gf-q9-WEm" secondAttribute="trailing" id="Vpk-ER-fMR"/>
                     <constraint firstItem="6Gf-q9-WEm" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="12" id="pkn-in-qri"/>
                 </constraints>

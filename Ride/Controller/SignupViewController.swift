@@ -33,17 +33,21 @@ class SignupViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        hideKeyboardWhenTappedAround()
+
     }
    
     //MARK: Setup UI
 
     private func configureUI() {
         signUpButton.layer.cornerRadius = 5
-        emailText.addPlaceHolder(text: "Email")
-        usernameText.addPlaceHolder(text: "Full Name")
-        passwordText.addPlaceHolder(text: "Password")
+        emailText.addPlaceHolder(text: "Email", color: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.5))
+        usernameText.addPlaceHolder(text: "Full Name", color: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.5))
+        passwordText.addPlaceHolder(text: "Password", color: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.5))
         userTypeSegment.setTitleTextAttributes([.foregroundColor: UIColor(named: "alphaWhite") ?? UIColor.white], for: .normal)
         userTypeSegment.setTitleTextAttributes([.foregroundColor: UIColor(named: "Background") ?? UIColor.black], for: .selected)
+        passwordText.textContentType = .telephoneNumber
+
     }
     
     //MARK: Actions
@@ -76,6 +80,9 @@ class SignupViewController: UIViewController {
             
             //add the new user in firebase database
             Database.database().reference().child("users").child(uid).updateChildValues(values) { (error, ref) in
+                if let error = error {
+                    Helpers.alert(title: "Error", message: error.localizedDescription)
+                }
                 self.dismiss(animated: true, completion: nil)
             }
         }
