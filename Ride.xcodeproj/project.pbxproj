@@ -20,6 +20,7 @@
 		0483422F253116DA0013D3D1 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0483422E253116DA0013D3D1 /* SignupViewController.swift */; };
 		04834231253123050013D3D1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04834230253123050013D3D1 /* GoogleService-Info.plist */; };
 		04FA74052533D20C00C94ABD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FA74042533D20C00C94ABD /* HomeViewController.swift */; };
+		123818E025C42D470080F9CB /* Helpers.swift in Sources */ = {isa = PBXBuildFile; fileRef = 123818DF25C42D470080F9CB /* Helpers.swift */; };
 		FF4AB69D2CB5F55E65BCAFC3 /* Pods_Ride.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F456E5AE3081BB49065EB5 /* Pods_Ride.framework */; };
 /* End PBXBuildFile section */
 
@@ -40,6 +41,7 @@
 		04834230253123050013D3D1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04FA74042533D20C00C94ABD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		09F456E5AE3081BB49065EB5 /* Pods_Ride.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ride.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		123818DF25C42D470080F9CB /* Helpers.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Helpers.swift; sourceTree = "<group>"; };
 		18E51DA4FF8EDEFD3FF6CE20 /* Pods-Ride.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ride.release.xcconfig"; path = "Target Support Files/Pods-Ride/Pods-Ride.release.xcconfig"; sourceTree = "<group>"; };
 		2E88201262F60B2E98D2B186 /* Pods-Ride.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ride.debug.xcconfig"; path = "Target Support Files/Pods-Ride/Pods-Ride.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -123,6 +125,7 @@
 			isa = PBXGroup;
 			children = (
 				042D413E2535251B0034D837 /* Extensions.swift */,
+				123818DF25C42D470080F9CB /* Helpers.swift */,
 			);
 			path = Utiles;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 				0431354D252FAE7D0019D6D0 /* LoginViewController.swift in Sources */,
 				04313534252FAA750019D6D0 /* AppDelegate.swift in Sources */,
 				0483422F253116DA0013D3D1 /* SignupViewController.swift in Sources */,
+				123818E025C42D470080F9CB /* Helpers.swift in Sources */,
 				04313536252FAA750019D6D0 /* SceneDelegate.swift in Sources */,
 				042D4148253551610034D837 /* LocationCell.swift in Sources */,
 				042D413F2535251B0034D837 /* Extensions.swift in Sources */,
