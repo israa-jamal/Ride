@@ -8,8 +8,10 @@
 
 import UIKit
 
+//MARK: - UIView
+
 extension UIView{
-    //View Properties
+    
     func anchor(top: NSLayoutYAxisAnchor? = nil,
                   left: NSLayoutXAxisAnchor? = nil,
                   bottom: NSLayoutYAxisAnchor? = nil,
@@ -73,4 +75,29 @@ extension UIView{
           layer.shadowOffset = CGSize(width: 0.5, height: 0.5)
           layer.masksToBounds = false
       }
+}
+
+//MARK: - UITextField
+
+extension UITextField {
+    
+    func addPlaceHolder(text: String){
+        self.attributedPlaceholder = NSAttributedString(string: text, attributes: [NSAttributedString.Key.foregroundColor : #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.509620616) ])
+    }
+    
+}
+
+
+//MARK: - UIViewController
+
+extension UIViewController {
+    func hideKeyboardWhenTappedAround() {
+        let tap: UITapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(UIViewController.dismissKeyboard))
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
+    }
+    
+    @objc func dismissKeyboard() {
+        view.endEditing(true)
+    }
 }

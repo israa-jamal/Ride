@@ -29,7 +29,7 @@ class HomeViewController: UIViewController {
         checkIfUserIsLogedIn()
         //map.isHidden = false
         
-        //signOut()
+        signOut()
         
     }
     
