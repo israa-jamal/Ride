@@ -110,7 +110,7 @@ extension UIViewController {
         view.endEditing(true)
     }
 }
-//MARK: - MKPlacemark
+//MARK: - MKPlaceMark
 
 extension MKPlacemark {
     var address : String? {
@@ -121,6 +121,44 @@ extension MKPlacemark {
             guard let adminArea = administrativeArea else {return nil}
             return "\(subThroughFare) \(throughFare), \(locality), \(adminArea) "
         }
+    }
+}
+
+//MARK: - MKMapView
+
+extension MKMapView {
+    func zoomToFit(annotations : [MKAnnotation]) {
+        var zoomRect = MKMapRect.null
+        
+        annotations.forEach { (annotation) in
+            let annotationPoint = MKMapPoint(annotation.coordinate)
+            let pointRect = MKMapRect(x: annotationPoint.x, y: annotationPoint.y, width: 0.01, height: 0.01)
+            zoomRect = zoomRect.union(pointRect)
+        }
+        let insets = UIEdgeInsets(top: 75, left: 75, bottom: 375, right: 75)
+        setVisibleMapRect(zoomRect, edgePadding: insets, animated: true)
+    }
+}
+//MARK: - UIImage
+
+extension UIImage {
+    
+    public func mask(with color: UIColor) -> UIImage {
+        
+        UIGraphicsBeginImageContextWithOptions(self.size, false, self.scale)
+        let context = UIGraphicsGetCurrentContext()!
+        
+        let rect = CGRect(origin: CGPoint.zero, size: size)
+        
+        color.setFill()
+        self.draw(in: rect)
+        
+        context.setBlendMode(.sourceIn)
+        context.fill(rect)
+        
+        let resultImage = UIGraphicsGetImageFromCurrentImageContext()!
+        UIGraphicsEndImageContext()
+        return resultImage
     }
 }
 

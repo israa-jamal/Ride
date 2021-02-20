@@ -28,6 +28,7 @@ class HomeViewController: UIViewController {
     private let tableView = UITableView()
     private let locationManger = LocationManager.shared.locationManager
     private let locationInputView = LocationInputView()
+    private let rideActionView = RideActionView()
     private var searchResults : [MKPlacemark] = []
     private var actionButtonState = ActionButtonState.menu
     private var route: MKRoute?
@@ -46,8 +47,10 @@ class HomeViewController: UIViewController {
         enableLocationServices()
         configureMapView()
         configureTableView()
+        configureRideActionView()
         inputActivationView.alpha = 0
         inputActivationView.addShadow()
+        rideActionView.addShadow()
         map.delegate = self
         
         UIView.animate(withDuration: 2) {
@@ -85,6 +88,11 @@ class HomeViewController: UIViewController {
         }
     }
     
+    func configureRideActionView() {
+        view.addSubview(rideActionView)
+        rideActionView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: 300)
+    }
+    
     //MARK: Actions
     
     @IBAction func chooseLocation(_ sender: UITapGestureRecognizer) {
@@ -97,6 +105,7 @@ class HomeViewController: UIViewController {
         case .backButton:
             removeAnnotationsAndOverlays()
             map.showAnnotations(map.annotations, animated: true)
+            self.presentRideActionView(false)
             UIView.animate(withDuration: 0.5, animations: {
                 self.inputActivationView.alpha = 1
                 self.configureActionButtonState(config: .menu)
@@ -131,6 +140,18 @@ class HomeViewController: UIViewController {
             self.tableView.frame.origin.y = self.view.frame.height
             self.locationInputView.removeFromSuperview()
         }, completion: completion)
+    }
+    
+    func presentRideActionView(_ present: Bool) {
+        if present {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.rideActionView.frame.origin.y = self.view.frame.height - 300
+            })
+        } else {
+            UIView.animate(withDuration: 0.3, animations: {
+                self.rideActionView.frame.origin.y = self.view.frame.height
+            })
+        }
     }
 }
 
@@ -182,11 +203,13 @@ extension HomeViewController :  MKMapViewDelegate{
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is DriverAnnotation {
             let view = MKAnnotationView(annotation: annotation, reuseIdentifier: K.driverAnnotationReusableCell)
-            view.image = #imageLiteral(resourceName: "car")
-            view.backgroundColor = #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1)
+            var image = #imageLiteral(resourceName: "car")
+            image = image.mask(with: .white)
+            view.image = image
+            view.backgroundColor = #colorLiteral(red: 0, green: 0, blue: 0, alpha: 1)
             view.layer.cornerRadius = 15
-            view.layer.borderWidth = 1
-            view.layer.borderColor = UIColor.black.cgColor
+            view.layer.borderWidth = 3
+            view.layer.borderColor = UIColor.white.cgColor
             view.frame.size = CGSize(width: 30, height: 30)
             return view
         }
@@ -196,7 +219,7 @@ extension HomeViewController :  MKMapViewDelegate{
         if let route = self.route {
             let polyLine = route.polyline
             let line = MKPolylineRenderer(polyline: polyLine)
-            line.strokeColor = UIColor(named: "Button")
+            line.strokeColor = UIColor(named: K.darkBlueColor)
             line.lineWidth = 4
             return line
         }
@@ -283,7 +306,10 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
                 self.map.selectAnnotation(annotation, animated: true)
                 self.configureActionButtonState(config: .backButton)
                 let annotations = self.map.annotations.filter{!$0.isKind(of: DriverAnnotation.self)}
-                self.map.showAnnotations(annotations, animated: true)
+                self.map.zoomToFit(annotations: annotations)
+                self.presentRideActionView(true)
+                self.rideActionView.destinationNameLabel.text = placeMark.name
+                self.rideActionView.destinationAddressLabel.text = placeMark.address
             }
         }
         

@@ -45,7 +45,6 @@ class LocationInputView: UIView {
         ///setup subviews
         destinationTextField.delegate = self
         startDotView.layer.cornerRadius = 6/2
-        userNameLabel.text = "Esraa Gamal"
         currentLocationTextField.addPlaceHolder(text: "Current Location", color: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1))
         destinationTextField.addPlaceHolder(text: "Enter a destination..", color: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1))
         currentLocationTextField.setPaddingPoints(8)
