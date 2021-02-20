@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 //MARK: - UIView
 
@@ -109,3 +110,17 @@ extension UIViewController {
         view.endEditing(true)
     }
 }
+//MARK: - MKPlacemark
+
+extension MKPlacemark {
+    var address : String? {
+        get {
+            guard let subThroughFare = subThoroughfare else {return nil}
+            guard let throughFare = thoroughfare else {return nil}
+            guard let locality = locality else {return nil}
+            guard let adminArea = administrativeArea else {return nil}
+            return "\(subThroughFare) \(throughFare), \(locality), \(adminArea) "
+        }
+    }
+}
+

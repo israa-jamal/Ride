@@ -22,6 +22,7 @@ class HomeViewController: UIViewController {
     private let tableView = UITableView()
     private let locationManger = LocationManager.shared.locationManager
     private let locationInputView = LocationInputView()
+    private var searchResults : [MKPlacemark] = []
     
     //MARK: View Lifecycle
     
@@ -90,6 +91,16 @@ class HomeViewController: UIViewController {
         getUserData()
         getNearbyDrivers()
     }
+    
+    func dimissLocationInputView(completion: ((Bool) -> Void)? = nil) {
+        UIView.animate(withDuration: 0.5, animations: {
+     self.locationInputView.alpha = 0
+     self.tableView.frame.origin.y = self.view.frame.height
+     self.locationInputView.removeFromSuperview()
+     UIView.animate(withDuration: 0.7, animations: {self.inputActivationView.alpha = 1
+     })
+        }, completion: completion)
+    }
 }
 
 //MARK:- Location Manager
@@ -114,23 +125,24 @@ extension HomeViewController{
 //MARK:- LocationInputViewDelegate
 
 extension HomeViewController: LocationInputViewDelegate{
-    
-    func dismissLocationInputView() {
-        UIView.animate(withDuration: 0.3,
-                       animations: {self.locationInputView.alpha = 0
-                        self.tableView.frame.origin.y = self.view.frame.height
-                       }) { _ in
-            UIView.animate(withDuration: 0.3, animations: {self.inputActivationView.alpha = 1
-                self.locationInputView.removeFromSuperview()
-            })
+    func search(query: String) {
+        searchBy(query: query) { (placeMarks) in
+            self.searchResults = placeMarks
+            self.tableView.reloadData()
+            print(placeMarks)
         }
+    }
+    
+    func dismissView() {
+        dimissLocationInputView()
     }
     
 }
 
-//MARK:- UITableView
+//MARK:- MAP
 
 extension HomeViewController :  MKMapViewDelegate{
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is DriverAnnotation {
             let view = MKAnnotationView(annotation: annotation, reuseIdentifier: K.driverAnnotationReusableCell)
@@ -143,6 +155,24 @@ extension HomeViewController :  MKMapViewDelegate{
             return view
         }
         return nil
+    }
+    
+    //MARK: Map Helpers
+    
+    func searchBy(query: String, completion: @escaping([MKPlacemark]) -> Void) {
+        var results = [MKPlacemark]()
+        let request = MKLocalSearch.Request()
+        request.region = map.region
+        request.naturalLanguageQuery = query
+        
+        let search = MKLocalSearch(request: request)
+        search.start { (response, error) in
+            guard let response = response else {return}
+            response.mapItems.forEach { item in
+                results.append(item.placemark)
+            }
+            completion(results)
+        }
     }
 }
 
@@ -159,14 +189,25 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 2 : 5
+        return section == 0 ? 2 : searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableLocationCell", for: indexPath) as! LocationCell
+        if indexPath.section == 1 {
+            cell.setupCellWithValues(placeMark: searchResults[indexPath.row])
+        }
         return cell
     }
     
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        dimissLocationInputView { _ in
+            let annotation = MKPointAnnotation()
+            annotation.coordinate = self.searchResults[indexPath.row].coordinate
+            self.map.addAnnotation(annotation)
+            self.map.selectAnnotation(annotation, animated: true)
+        }
+    }
 }
 
 //MARK:- Apis Calls

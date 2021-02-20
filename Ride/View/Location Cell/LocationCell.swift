@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import MapKit
 
 class LocationCell: UITableViewCell {
 
@@ -23,4 +24,8 @@ class LocationCell: UITableViewCell {
         selectionStyle = .none
     }
     
+    func setupCellWithValues(placeMark : MKPlacemark) {
+        locationLabel.text = placeMark.name
+        addressLabel.text = placeMark.address
+    }
 }
