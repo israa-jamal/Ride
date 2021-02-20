@@ -10,12 +10,18 @@ import UIKit
 import Firebase
 import MapKit
 
+enum ActionButtonState {
+    case menu
+    case backButton
+}
+
 class HomeViewController: UIViewController {
     
     //MARK: Outlets
     
     @IBOutlet weak var inputActivationView: UIView!
     @IBOutlet weak var map: MKMapView!
+    @IBOutlet weak var actionButton: UIButton!
     
     //MARK: Properties
     
@@ -23,6 +29,8 @@ class HomeViewController: UIViewController {
     private let locationManger = LocationManager.shared.locationManager
     private let locationInputView = LocationInputView()
     private var searchResults : [MKPlacemark] = []
+    private var actionButtonState = ActionButtonState.menu
+    private var route: MKRoute?
     
     //MARK: View Lifecycle
     
@@ -84,6 +92,20 @@ class HomeViewController: UIViewController {
         configureLocationInputView()
     }
     
+    @IBAction func actionButtonPressed(_ sender: UIButton) {
+        switch actionButtonState {
+        case .backButton:
+            removeAnnotationsAndOverlays()
+            map.showAnnotations(map.annotations, animated: true)
+            UIView.animate(withDuration: 0.5, animations: {
+                self.inputActivationView.alpha = 1
+                self.configureActionButtonState(config: .menu)
+            })
+        case .menu:
+            print("")
+        }
+    }
+    
     //MARK: Helpers
     
     func configure() {
@@ -92,13 +114,22 @@ class HomeViewController: UIViewController {
         getNearbyDrivers()
     }
     
-    func dimissLocationInputView(completion: ((Bool) -> Void)? = nil) {
+    func configureActionButtonState(config: ActionButtonState) {
+        switch config {
+        case .menu:
+            self.actionButtonState = .menu
+            self.actionButton.setImage(UIImage(named: K.menuImage), for: .normal)
+        case .backButton:
+            self.actionButtonState = .backButton
+            self.actionButton.setImage(UIImage(named: K.backImage), for: .normal)
+        }
+    }
+    
+    func dimissLocationInputView(completion: ((Bool) -> Void)?) {
         UIView.animate(withDuration: 0.5, animations: {
-     self.locationInputView.alpha = 0
-     self.tableView.frame.origin.y = self.view.frame.height
-     self.locationInputView.removeFromSuperview()
-     UIView.animate(withDuration: 0.7, animations: {self.inputActivationView.alpha = 1
-     })
+            self.locationInputView.alpha = 0
+            self.tableView.frame.origin.y = self.view.frame.height
+            self.locationInputView.removeFromSuperview()
         }, completion: completion)
     }
 }
@@ -134,7 +165,12 @@ extension HomeViewController: LocationInputViewDelegate{
     }
     
     func dismissView() {
-        dimissLocationInputView()
+        dimissLocationInputView(completion: {
+            _ in
+            UIView.animate(withDuration: 0.7, animations: {
+                self.inputActivationView.alpha = 1
+            })
+        })
     }
     
 }
@@ -156,7 +192,16 @@ extension HomeViewController :  MKMapViewDelegate{
         }
         return nil
     }
-    
+    func mapView(_ mapView: MKMapView, rendererFor overlay: MKOverlay) -> MKOverlayRenderer {
+        if let route = self.route {
+            let polyLine = route.polyline
+            let line = MKPolylineRenderer(polyline: polyLine)
+            line.strokeColor = UIColor(named: "Button")
+            line.lineWidth = 4
+            return line
+        }
+        return MKOverlayRenderer()
+    }
     //MARK: Map Helpers
     
     func searchBy(query: String, completion: @escaping([MKPlacemark]) -> Void) {
@@ -172,6 +217,32 @@ extension HomeViewController :  MKMapViewDelegate{
                 results.append(item.placemark)
             }
             completion(results)
+        }
+    }
+    
+    func generateRoute(toDestination destination : MKMapItem) {
+        let request = MKDirections.Request()
+        request.source = MKMapItem.forCurrentLocation()
+        request.destination = destination
+        request.transportType = .automobile
+        
+        let directionRequest = MKDirections(request: request)
+        directionRequest.calculate { (response, error) in
+            guard let response = response else {return}
+            self.route = response.routes[0]
+            guard let polyline = self.route?.polyline else {return}
+            self.map.addOverlay(polyline)
+        }
+    }
+    
+    func removeAnnotationsAndOverlays() {
+        map.annotations.forEach { (annotation) in
+            if let anno = annotation as? MKPointAnnotation {
+                map.removeAnnotation(anno)
+            }
+        }
+        if map.overlays.count > 0 {
+            map.removeOverlays(map.overlays)
         }
     }
 }
@@ -201,12 +272,21 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        dimissLocationInputView { _ in
-            let annotation = MKPointAnnotation()
-            annotation.coordinate = self.searchResults[indexPath.row].coordinate
-            self.map.addAnnotation(annotation)
-            self.map.selectAnnotation(annotation, animated: true)
+        if indexPath.section == 1 {
+            let placeMark = self.searchResults[indexPath.row]
+            let destination = MKMapItem(placemark: placeMark)
+            generateRoute(toDestination: destination)
+            dimissLocationInputView { _ in
+                let annotation = MKPointAnnotation()
+                annotation.coordinate = placeMark.coordinate
+                self.map.addAnnotation(annotation)
+                self.map.selectAnnotation(annotation, animated: true)
+                self.configureActionButtonState(config: .backButton)
+                let annotations = self.map.annotations.filter{!$0.isKind(of: DriverAnnotation.self)}
+                self.map.showAnnotations(annotations, animated: true)
+            }
         }
+        
     }
 }
 
