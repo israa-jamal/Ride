@@ -18,6 +18,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var passwordTextfield: UITextField!
     
+    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+
     //MARK: View Lifecycle
 
     override func viewWillAppear(_ animated: Bool) {
@@ -60,7 +62,9 @@ class LoginViewController: UIViewController {
                 Helpers.alert(title: "There was an error signing you in", message: error.localizedDescription)
                 return
             }
-            self.dismiss(animated: true, completion: nil)
+            let homeNavigationController = self.storyboard?.instantiateViewController(withIdentifier: "HomeNavigation")
+            self.view.window?.rootViewController = homeNavigationController
+            self.view.window?.makeKeyAndVisible()
         }
     }
 }

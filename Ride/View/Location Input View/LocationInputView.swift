@@ -34,6 +34,7 @@ class LocationInputView: UIView {
     }
     
     private func configureUI() {
+        
         ///setup contentView
         Bundle.main.loadNibNamed("LocationInputView", owner: self, options: nil)
         addSubview(contentView)
@@ -53,3 +54,4 @@ class LocationInputView: UIView {
         delegate?.dismissLocationInputView()
     }
 }
+

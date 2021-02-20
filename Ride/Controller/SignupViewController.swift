@@ -8,6 +8,7 @@
 
 import UIKit
 import Firebase
+import GeoFire
 
 class SignupViewController: UIViewController {
     
@@ -18,6 +19,8 @@ class SignupViewController: UIViewController {
     @IBOutlet weak var userTypeSegment: UISegmentedControl!
     @IBOutlet weak var passwordText: UITextField!
     @IBOutlet weak var signUpButton: UIButton!
+    
+    let location = LocationManager.shared.location
     
     //MARK: View Lifecycle
 
@@ -77,14 +80,30 @@ class SignupViewController: UIViewController {
             }
             guard let uid = result?.user.uid else {return}
             let values = ["email": email, "fullName": userName, "accountType": userType] as [String : Any]
-            
-            //add the new user in firebase database
-            Database.database().reference().child("users").child(uid).updateChildValues(values) { (error, ref) in
-                if let error = error {
-                    Helpers.alert(title: "Error", message: error.localizedDescription)
+            if userType == 1 {
+                guard let location = self.location else { return }
+                let geoFire = GeoFire(firebaseRef: driversLocationRef)
+                geoFire.setLocation(location, forKey: uid) { (error) in
+                    if error == nil {
+                        self.addUserToDatabase(uid: uid, values: values)
+                    }
                 }
-                self.dismiss(animated: true, completion: nil)
+            } else {
+                self.addUserToDatabase(uid: uid, values: values)
             }
         }
     }
+    
+    func addUserToDatabase(uid : String, values : [String: Any]) {
+        usersRef.child(uid).updateChildValues(values) { (error, ref) in
+            if let error = error {
+                Helpers.alert(title: "Error", message: error.localizedDescription)
+            }
+            let homeNavigationController = self.storyboard?.instantiateViewController(withIdentifier: "HomeNavigation")
+            self.view.window?.rootViewController = homeNavigationController
+            self.view.window?.makeKeyAndVisible()
+            
+        }
+    }
+    
 }

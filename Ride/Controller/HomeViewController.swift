@@ -20,28 +20,27 @@ class HomeViewController: UIViewController {
     //MARK: Properties
     
     private let tableView = UITableView()
-    private let locationManger = CLLocationManager()
+    private let locationManger = LocationManager.shared.locationManager
     private let locationInputView = LocationInputView()
-
+    
     //MARK: View Lifecycle
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        configureUI()
         hideKeyboardWhenTappedAround()
-//        checkIfUserIsLogedIn()
+        configure()
     }
     
     //MARK: Configuring UI
     
     private func configureUI() {
         enableLocationServices()
-        locationManger.delegate = self
         configureMapView()
         configureTableView()
         inputActivationView.alpha = 0
         inputActivationView.addShadow()
-
+        map.delegate = self
+        
         UIView.animate(withDuration: 2) {
             self.inputActivationView.alpha = 1
         }
@@ -51,7 +50,7 @@ class HomeViewController: UIViewController {
         map.showsUserLocation = true
         map.userTrackingMode = .follow
     }
-  
+    
     func configureTableView() {
         tableView.delegate = self
         tableView.dataSource = self
@@ -70,73 +69,46 @@ class HomeViewController: UIViewController {
         locationInputView.alpha = 0
         UIView.animate(withDuration: 0.5,
                        animations: {self.locationInputView.alpha = 1
-        }) { _ in
+                       }) { _ in
             UIView.animate(withDuration: 0.3, animations: {
                 self.tableView.frame.origin.y = 200
             })
         }
     }
     
-    //MARK: Logic
-
-    func checkIfUserIsLogedIn(){
-        //if the user is already logged in go directly to the map
-        if Auth.auth().currentUser?.uid == nil{
-            DispatchQueue.main.async {
-                self.performSegue(withIdentifier: "goToLogin", sender: self)
-                
-                //self.view.window?.rootViewController = LoginViewController()
-                //self.view.window?.makeKeyAndVisible()
-                //self.present(navigationController, animated: true, completion: nil)
-            }
-            print("debug: the user is signed out")
-        }
-        else{
-            print("debug: the user is signed in")
-            //map.isHidden = false
-        }
-    }
-    
-    func signOut(){
-        do{
-            try Auth.auth().signOut()
-        }
-        catch{
-            print(error)
-        }
-    }
+    //MARK: Actions
     
     @IBAction func chooseLocation(_ sender: UITapGestureRecognizer) {
         inputActivationView.alpha = 0
         configureLocationInputView()
     }
     
+    //MARK: Helpers
+    
+    func configure() {
+        configureUI()
+        getUserData()
+        getNearbyDrivers()
+    }
 }
 
 //MARK:- Location Manager
 
-extension HomeViewController: CLLocationManagerDelegate{
+extension HomeViewController{
     
     func enableLocationServices() {
         switch CLLocationManager.authorizationStatus() {
         case .denied , .restricted , .notDetermined :
-            locationManger.requestWhenInUseAuthorization()
+            locationManger?.requestWhenInUseAuthorization()
         case .authorizedWhenInUse:
-            locationManger.requestAlwaysAuthorization()
+            locationManger?.requestAlwaysAuthorization()
         case .authorizedAlways:
-            locationManger.startUpdatingLocation()
-            locationManger.desiredAccuracy = kCLLocationAccuracyBest
+            locationManger?.startUpdatingLocation()
+            locationManger?.desiredAccuracy = kCLLocationAccuracyBest
         @unknown default:
             break
         }
     }
-    
-    func locationManager(_ manager: CLLocationManager, didChangeAuthorization status: CLAuthorizationStatus) {
-        if status == .authorizedWhenInUse {
-            locationManger.requestAlwaysAuthorization()
-        }
-    }
-    
 }
 
 //MARK:- LocationInputViewDelegate
@@ -147,13 +119,31 @@ extension HomeViewController: LocationInputViewDelegate{
         UIView.animate(withDuration: 0.3,
                        animations: {self.locationInputView.alpha = 0
                         self.tableView.frame.origin.y = self.view.frame.height
-        }) { _ in
+                       }) { _ in
             UIView.animate(withDuration: 0.3, animations: {self.inputActivationView.alpha = 1
                 self.locationInputView.removeFromSuperview()
             })
         }
     }
     
+}
+
+//MARK:- UITableView
+
+extension HomeViewController :  MKMapViewDelegate{
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is DriverAnnotation {
+            let view = MKAnnotationView(annotation: annotation, reuseIdentifier: K.driverAnnotationReusableCell)
+            view.image = #imageLiteral(resourceName: "car")
+            view.backgroundColor = #colorLiteral(red: 0.9994240403, green: 0.9855536819, blue: 0, alpha: 1)
+            view.layer.cornerRadius = 15
+            view.layer.borderWidth = 1
+            view.layer.borderColor = UIColor.black.cgColor
+            view.frame.size = CGSize(width: 30, height: 30)
+            return view
+        }
+        return nil
+    }
 }
 
 //MARK:- UITableView
@@ -176,5 +166,41 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
         let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableLocationCell", for: indexPath) as! LocationCell
         return cell
     }
+    
+}
 
+//MARK:- Apis Calls
+
+extension HomeViewController {
+    
+    func getUserData() {
+        guard let uid = Service.shared.currentUID else {return}
+        Service.shared.fetchUserData(uid: uid) { user in
+            self.locationInputView.userNameLabel.text = user.name
+        }
+    }
+    
+    func getNearbyDrivers() {
+        guard let location = self.locationManger?.location else {
+            return
+        }
+        Service.shared.fetchNearbyDrivers(completion: {
+            driver in
+            guard let coordinate = driver.location?.coordinate else {return}
+            let annotation = DriverAnnotation(uid: driver.uid, coordinate: coordinate)
+            var driverIsVisible : Bool {
+                return self.map.annotations.contains { (annotation) -> Bool in
+                    guard let driverAnnotation = annotation as? DriverAnnotation else {return false}
+                    if driverAnnotation.uid == driver.uid {
+                        driverAnnotation.updateAnnotationPosition(withCoordinate: coordinate)
+                        return true
+                    }
+                    return false
+                }
+            }
+            if !driverIsVisible {
+                self.map.addAnnotation(annotation)
+            }
+        }, location: location)
+    }
 }
