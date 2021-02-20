@@ -18,6 +18,8 @@ class LoginViewController: UIViewController {
     @IBOutlet weak var signInButton: UIButton!
     @IBOutlet weak var passwordTextfield: UITextField!
     
+    let storyBoard = UIStoryboard(name: "Main", bundle: nil)
+
     //MARK: View Lifecycle
 
     override func viewWillAppear(_ animated: Bool) {
@@ -32,14 +34,16 @@ class LoginViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         ConfigureUI()
+        hideKeyboardWhenTappedAround()
+
     }
     
     //MARK: Setup UI
 
     func ConfigureUI(){
         signInButton.layer.cornerRadius = 5
-        emailTextfield.addPlaceHolder(text: "Email")
-        passwordTextfield.addPlaceHolder(text: "Password")
+        emailTextfield.addPlaceHolder(text: "Email", color: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.5))
+        passwordTextfield.addPlaceHolder(text: "Password", color: #colorLiteral(red: 1, green: 1, blue: 1, alpha: 0.5))
     }
    
     //MARK: Actions
@@ -58,7 +62,9 @@ class LoginViewController: UIViewController {
                 Helpers.alert(title: "There was an error signing you in", message: error.localizedDescription)
                 return
             }
-            self.dismiss(animated: true, completion: nil)
+            let homeNavigationController = self.storyboard?.instantiateViewController(withIdentifier: "HomeNavigation")
+            self.view.window?.rootViewController = homeNavigationController
+            self.view.window?.makeKeyAndVisible()
         }
     }
 }
