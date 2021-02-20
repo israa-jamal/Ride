@@ -10,4 +10,7 @@ import Foundation
 
 struct K {
     static let driverAnnotationReusableCell = "DriverAnnotation"
+    static let menuImage = "Menu"
+    static let backImage = "back-arrow"
+    static let darkBlueColor = "DarkBlueColor"
 }

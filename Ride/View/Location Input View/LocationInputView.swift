@@ -9,7 +9,8 @@
 import UIKit
 
 protocol LocationInputViewDelegate: class{
-    func dismissLocationInputView ()
+    func dismissView ()
+    func search(query: String)
 }
 
 class LocationInputView: UIView {
@@ -42,8 +43,8 @@ class LocationInputView: UIView {
         contentView.autoresizingMask = [.flexibleHeight, .flexibleWidth]
         
         ///setup subviews
+        destinationTextField.delegate = self
         startDotView.layer.cornerRadius = 6/2
-        userNameLabel.text = "Esraa Gamal"
         currentLocationTextField.addPlaceHolder(text: "Current Location", color: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1))
         destinationTextField.addPlaceHolder(text: "Enter a destination..", color: #colorLiteral(red: 0.501960814, green: 0.501960814, blue: 0.501960814, alpha: 1))
         currentLocationTextField.setPaddingPoints(8)
@@ -51,7 +52,14 @@ class LocationInputView: UIView {
     }
     
     @IBAction func backButtonPressed(_ sender: UIButton) {
-        delegate?.dismissLocationInputView()
+        delegate?.dismissView()
     }
 }
 
+extension LocationInputView : UITextFieldDelegate {
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        guard let query = textField.text else {return false}
+        delegate?.search(query: query)
+        return true
+    }
+}
