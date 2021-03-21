@@ -32,6 +32,7 @@ class HomeViewController: UIViewController {
     private var searchResults : [MKPlacemark] = []
     private var actionButtonState = ActionButtonState.menu
     private var route: MKRoute?
+    private var user : User?
     
     //MARK: View Lifecycle
     
@@ -39,6 +40,7 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         configure()
+        
     }
     
     //MARK: Configuring UI
@@ -52,10 +54,7 @@ class HomeViewController: UIViewController {
         inputActivationView.addShadow()
         rideActionView.addShadow()
         map.delegate = self
-        
-        UIView.animate(withDuration: 2) {
-            self.inputActivationView.alpha = 1
-        }
+        rideActionView.delegate = self
     }
     
     func configureMapView() {
@@ -66,7 +65,7 @@ class HomeViewController: UIViewController {
     func configureTableView() {
         tableView.delegate = self
         tableView.dataSource = self
-        tableView.register(UINib(nibName: "LocationCell", bundle: nil), forCellReuseIdentifier: "ReusableLocationCell")
+        tableView.register(UINib(nibName: K.locationCellNIB, bundle: nil), forCellReuseIdentifier: K.locationReusableCell)
         tableView.rowHeight = 60
         tableView.tableFooterView = UIView()
         let height = view.frame.height - 200
@@ -95,6 +94,12 @@ class HomeViewController: UIViewController {
     
     //MARK: Actions
     
+    @IBAction func logOut(_ sender: UIButton) {
+        API.signOut()
+        self.view.window?.rootViewController = self.storyboard?.instantiateViewController(withIdentifier: "AuthNavigation") ?? LoginViewController()
+        self.view.window?.makeKeyAndVisible()
+    }
+    
     @IBAction func chooseLocation(_ sender: UITapGestureRecognizer) {
         inputActivationView.alpha = 0
         configureLocationInputView()
@@ -111,7 +116,7 @@ class HomeViewController: UIViewController {
                 self.configureActionButtonState(config: .menu)
             })
         case .menu:
-            print("")
+            print("menu pressed")
         }
     }
     
@@ -120,7 +125,20 @@ class HomeViewController: UIViewController {
     func configure() {
         configureUI()
         getUserData()
-        getNearbyDrivers()
+        configureUserType()
+    }
+    
+    func configureUserType() {
+        guard let user = user else {return}
+        if user.userType == .passenger {
+            UIView.animate(withDuration: 2) {
+                self.inputActivationView.alpha = 1
+            }
+            getNearbyDrivers()
+        } else {
+            observeTrips()
+        }
+        
     }
     
     func configureActionButtonState(config: ActionButtonState) {
@@ -181,7 +199,6 @@ extension HomeViewController: LocationInputViewDelegate{
         searchBy(query: query) { (placeMarks) in
             self.searchResults = placeMarks
             self.tableView.reloadData()
-            print(placeMarks)
         }
     }
     
@@ -287,7 +304,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "ReusableLocationCell", for: indexPath) as! LocationCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: K.locationReusableCell, for: indexPath) as! LocationCell
         if indexPath.section == 1 {
             cell.setupCellWithValues(placeMark: searchResults[indexPath.row])
         }
@@ -310,6 +327,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
                 self.presentRideActionView(true)
                 self.rideActionView.destinationNameLabel.text = placeMark.name
                 self.rideActionView.destinationAddressLabel.text = placeMark.address
+                self.rideActionView.location = placeMark.coordinate
             }
         }
         
@@ -350,4 +368,27 @@ extension HomeViewController {
             }
         }, location: location)
     }
+    func observeTrips() {
+        Service.shared.observeTrips { (trip) in
+            print(trip)
+        }
+    }
+}
+
+//MARK:- RideActionViewDelegate
+
+extension HomeViewController: RideActionViewDelegate {
+    func uploadTrip(destination: CLLocationCoordinate2D?) {
+        guard let pickupCoordinates = locationManger?.location?.coordinate else {return}
+        guard let destination = destination else {return}
+        
+        Service.shared.uploadTrip(pickupLocation: pickupCoordinates, destinationLocation: destination) { (error, reference) in
+            if error != nil {
+                Helpers.alert(title: "Error", message: error!.localizedDescription)
+            } else {
+                
+            }
+        }
+    }
+
 }

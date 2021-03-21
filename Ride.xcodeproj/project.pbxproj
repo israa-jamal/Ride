@@ -20,6 +20,7 @@
 		0483422F253116DA0013D3D1 /* SignupViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0483422E253116DA0013D3D1 /* SignupViewController.swift */; };
 		04834231253123050013D3D1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04834230253123050013D3D1 /* GoogleService-Info.plist */; };
 		04FA74052533D20C00C94ABD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FA74042533D20C00C94ABD /* HomeViewController.swift */; };
+		121D1DB9260749F200FFC1DE /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121D1DB8260749F200FFC1DE /* Trip.swift */; };
 		122FAD3F25E122E500D79739 /* DriverAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122FAD3E25E122E500D79739 /* DriverAnnotation.swift */; };
 		122FAD4825E127D900D79739 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122FAD4725E127D900D79739 /* Constants.swift */; };
 		122FAD4C25E15DCF00D79739 /* RideActionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 122FAD4B25E15DCF00D79739 /* RideActionView.xib */; };
@@ -51,6 +52,7 @@
 		04834230253123050013D3D1 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		04FA74042533D20C00C94ABD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		09F456E5AE3081BB49065EB5 /* Pods_Ride.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ride.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		121D1DB8260749F200FFC1DE /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Trip.swift; path = ../../../../Trip.swift; sourceTree = "<group>"; };
 		122FAD3E25E122E500D79739 /* DriverAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverAnnotation.swift; sourceTree = "<group>"; };
 		122FAD4725E127D900D79739 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		122FAD4B25E15DCF00D79739 /* RideActionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RideActionView.xib; sourceTree = "<group>"; };
@@ -118,6 +120,7 @@
 			children = (
 				1238193F25C4A4470080F9CB /* User.swift */,
 				122FAD3E25E122E500D79739 /* DriverAnnotation.swift */,
+				121D1DB8260749F200FFC1DE /* Trip.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -340,6 +343,7 @@
 				04313536252FAA750019D6D0 /* SceneDelegate.swift in Sources */,
 				042D4148253551610034D837 /* LocationCell.swift in Sources */,
 				1238194025C4A4470080F9CB /* User.swift in Sources */,
+				121D1DB9260749F200FFC1DE /* Trip.swift in Sources */,
 				1238193A25C495CB0080F9CB /* Service.swift in Sources */,
 				042D413F2535251B0034D837 /* Extensions.swift in Sources */,
 				122FAD5025E15DEA00D79739 /* RideActionView.swift in Sources */,

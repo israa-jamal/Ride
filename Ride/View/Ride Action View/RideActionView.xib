@@ -76,6 +76,9 @@
                     <state key="normal" title="CONFIRM RIDEX">
                         <color key="titleColor" name="alphaWhite"/>
                     </state>
+                    <connections>
+                        <action selector="confirmTrip:" destination="-1" eventType="touchUpInside" id="ONy-zs-lzu"/>
+                    </connections>
                 </button>
             </subviews>
             <color key="backgroundColor" systemColor="systemBackgroundColor"/>

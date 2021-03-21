@@ -7,6 +7,11 @@
 //
 
 import UIKit
+import CoreLocation
+
+protocol RideActionViewDelegate {
+    func uploadTrip(destination : CLLocationCoordinate2D?)
+}
 
 class RideActionView : UIView {
     
@@ -17,6 +22,9 @@ class RideActionView : UIView {
     @IBOutlet weak var destinationAddressLabel: UILabel!
     @IBOutlet weak var requestRideButton: UIButton!
     
+    var delegate : RideActionViewDelegate?
+    var location : CLLocationCoordinate2D?
+        
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
@@ -39,9 +47,10 @@ class RideActionView : UIView {
         xView.layer.cornerRadius = 30
     }
     
-    @IBAction func backButtonPressed(_ sender: UIButton) {
-        
+    @IBAction func confirmTrip(_ sender: UIButton) {
+        delegate?.uploadTrip(destination: location)
     }
+    
 }
 
 

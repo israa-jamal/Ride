@@ -13,6 +13,7 @@ import GeoFire
 let dbRef = Database.database().reference()
 let usersRef = dbRef.child("users")
 let driversLocationRef = dbRef.child("drivers-locations")
+let tripsRef = dbRef.child("trips")
 
 struct Service {
     
@@ -39,6 +40,26 @@ struct Service {
                     completion(driver)
                 }
             })
+        }
+    }
+    
+    func uploadTrip(pickupLocation : CLLocationCoordinate2D, destinationLocation: CLLocationCoordinate2D, completion: @escaping(Error?, DatabaseReference) -> Void) {
+        guard let uid = currentUID else {return}
+        let pickupArray = [pickupLocation.latitude, pickupLocation.longitude]
+        let destinationArray = [destinationLocation.latitude, destinationLocation.longitude]
+        let values = ["pickupCoordinates" : pickupArray, "destinationCoordinates" : destinationArray, "state" : TripState.requested.rawValue] as [String : Any]
+        tripsRef.child(uid).updateChildValues(values) { (error, response) in
+            completion(error, response)
+        }
+    }
+    
+    func observeTrips(completion: @escaping(Trip) -> Void) {
+        tripsRef.observe(.childAdded) { (snapshot) in
+            guard let dictionary = snapshot.value as? [String: Any] else {return}
+            let trip = Trip(passengerUID: snapshot.key.description, dictionary: dictionary)
+            if trip.tripState == .requested {
+                completion(trip)
+            }
         }
     }
 }

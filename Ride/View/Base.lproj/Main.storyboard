@@ -496,6 +496,14 @@
                                     <action selector="actionButtonPressed:" destination="iLD-43-jwv" eventType="touchUpInside" id="0vu-cD-fZH"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FgI-4B-S6r">
+                                <rect key="frame" x="323" y="60" width="55" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Log Out"/>
+                                <connections>
+                                    <action selector="logOut:" destination="iLD-43-jwv" eventType="touchUpInside" id="bCy-ut-T5U"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ksM-Rm-oWU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
