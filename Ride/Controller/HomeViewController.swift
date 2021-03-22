@@ -40,7 +40,6 @@ class HomeViewController: UIViewController {
         super.viewDidLoad()
         hideKeyboardWhenTappedAround()
         configure()
-        
     }
     
     //MARK: Configuring UI
@@ -125,7 +124,6 @@ class HomeViewController: UIViewController {
     func configure() {
         configureUI()
         getUserData()
-        configureUserType()
     }
     
     func configureUserType() {
@@ -135,6 +133,7 @@ class HomeViewController: UIViewController {
                 self.inputActivationView.alpha = 1
             }
             getNearbyDrivers()
+            observeCurrentTrip()
         } else {
             observeTrips()
         }
@@ -190,27 +189,6 @@ extension HomeViewController{
             break
         }
     }
-}
-
-//MARK:- LocationInputViewDelegate
-
-extension HomeViewController: LocationInputViewDelegate{
-    func search(query: String) {
-        searchBy(query: query) { (placeMarks) in
-            self.searchResults = placeMarks
-            self.tableView.reloadData()
-        }
-    }
-    
-    func dismissView() {
-        dimissLocationInputView(completion: {
-            _ in
-            UIView.animate(withDuration: 0.7, animations: {
-                self.inputActivationView.alpha = 1
-            })
-        })
-    }
-    
 }
 
 //MARK:- MAP
@@ -334,14 +312,71 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     }
 }
 
+//MARK:- LocationInputViewDelegate
+
+extension HomeViewController: LocationInputViewDelegate{
+    func search(query: String) {
+        searchBy(query: query) { (placeMarks) in
+            self.searchResults = placeMarks
+            self.tableView.reloadData()
+        }
+    }
+    
+    func dismissView() {
+        dimissLocationInputView(completion: {
+            _ in
+            UIView.animate(withDuration: 0.7, animations: {
+                self.inputActivationView.alpha = 1
+            })
+        })
+    }
+    
+}
+
+//MARK:- RideActionViewDelegate
+
+extension HomeViewController: RideActionViewDelegate {
+    func uploadTrip(destination: CLLocationCoordinate2D?) {
+        guard let pickupCoordinates = locationManger?.location?.coordinate else {return}
+        guard let destination = destination else {return}
+        
+        Service.shared.uploadTrip(pickupLocation: pickupCoordinates, destinationLocation: destination) { (error, reference) in
+            if error != nil {
+                Helpers.alert(title: "Error", message: error!.localizedDescription)
+            } else {
+                UIView.animate(withDuration: 2) {
+                    self.rideActionView.frame.origin.y = self.view.frame.height
+                    self.rideActionView.removeFromSuperview()
+                } completion: { (_) in
+                    self.shouldPresentLoadingView(true, message: "Finding you a ride...")
+                }
+            }
+        }
+    }
+}
+
+//MARK:- PickupControllerDelegate
+
+extension HomeViewController: PickupControllerDelegate {
+    func didAcceptTrip(trip: Trip) {
+        let placeMark = MKPlacemark(coordinate: trip.pickupCoordinates)
+        let destination = MKMapItem(placemark: placeMark)
+        generateRoute(toDestination: destination)
+        map.zoomToFit(annotations: map.annotations)
+    }
+    
+}
+
 //MARK:- Apis Calls
 
 extension HomeViewController {
     
     func getUserData() {
-        guard let uid = Service.shared.currentUID else {return}
+        guard let uid = Auth.auth().currentUser?.uid else {return}
         Service.shared.fetchUserData(uid: uid) { user in
             self.locationInputView.userNameLabel.text = user.name
+            self.user = user
+            self.configureUserType()
         }
     }
     
@@ -368,27 +403,21 @@ extension HomeViewController {
             }
         }, location: location)
     }
+    
     func observeTrips() {
         Service.shared.observeTrips { (trip) in
-            print(trip)
+            guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PickupControllerViewController") as? PickupControllerViewController else {return}
+                vc.modalPresentationStyle = .fullScreen
+            vc.trip = trip
+            self.present(vc, animated: true, completion: nil)
         }
     }
-}
-
-//MARK:- RideActionViewDelegate
-
-extension HomeViewController: RideActionViewDelegate {
-    func uploadTrip(destination: CLLocationCoordinate2D?) {
-        guard let pickupCoordinates = locationManger?.location?.coordinate else {return}
-        guard let destination = destination else {return}
-        
-        Service.shared.uploadTrip(pickupLocation: pickupCoordinates, destinationLocation: destination) { (error, reference) in
-            if error != nil {
-                Helpers.alert(title: "Error", message: error!.localizedDescription)
-            } else {
-                
+    
+    func observeCurrentTrip() {
+        Service.shared.observeCurrentTrip { trip in
+            if trip.tripState == .accepted {
+                self.shouldPresentLoadingView(false)
             }
         }
     }
-
 }

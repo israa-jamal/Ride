@@ -18,7 +18,6 @@ let tripsRef = dbRef.child("trips")
 struct Service {
     
     static let shared = Service()
-    let currentUID = Auth.auth().currentUser?.uid
     
     func fetchUserData(uid: String, completion: @escaping(User) -> Void) {
             usersRef.child(uid).observeSingleEvent(of: .value) { (snapshot) in
@@ -44,13 +43,11 @@ struct Service {
     }
     
     func uploadTrip(pickupLocation : CLLocationCoordinate2D, destinationLocation: CLLocationCoordinate2D, completion: @escaping(Error?, DatabaseReference) -> Void) {
-        guard let uid = currentUID else {return}
+        guard let uid = Auth.auth().currentUser?.uid else {return}
         let pickupArray = [pickupLocation.latitude, pickupLocation.longitude]
         let destinationArray = [destinationLocation.latitude, destinationLocation.longitude]
         let values = ["pickupCoordinates" : pickupArray, "destinationCoordinates" : destinationArray, "state" : TripState.requested.rawValue] as [String : Any]
-        tripsRef.child(uid).updateChildValues(values) { (error, response) in
-            completion(error, response)
-        }
+        tripsRef.child(uid).updateChildValues(values, withCompletionBlock: completion)
     }
     
     func observeTrips(completion: @escaping(Trip) -> Void) {
@@ -60,6 +57,27 @@ struct Service {
             if trip.tripState == .requested {
                 completion(trip)
             }
+        }
+    }
+    
+    func acceptTrip(trip: Trip, completion: @escaping(Error?, Trip) -> Void) {
+        guard let driverUID = Auth.auth().currentUser?.uid else {return}
+        let values = ["driverUID": driverUID, "state": TripState.accepted.rawValue] as [String : Any]
+        tripsRef.child(trip.passengerUID).updateChildValues(values) { (error, ref) in
+            ref.observe(.value) { (snapshot) in
+                let dictionary = snapshot.value as? [String: Any] ?? [:]
+                let trip = Trip(passengerUID: snapshot.key.description, dictionary: dictionary)
+                completion(error, trip)
+            }
+        }
+    }
+    
+    func observeCurrentTrip(completion: @escaping(Trip) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        tripsRef.child(uid).observe(.value) { (snapshot) in
+            guard let dictionary = snapshot.value as? [String: Any] else {return}
+            let trip = Trip(passengerUID: snapshot.key.description, dictionary: dictionary)
+            completion(trip)
         }
     }
 }

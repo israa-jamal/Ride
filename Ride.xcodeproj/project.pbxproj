@@ -21,6 +21,9 @@
 		04834231253123050013D3D1 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 04834230253123050013D3D1 /* GoogleService-Info.plist */; };
 		04FA74052533D20C00C94ABD /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04FA74042533D20C00C94ABD /* HomeViewController.swift */; };
 		121D1DB9260749F200FFC1DE /* Trip.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121D1DB8260749F200FFC1DE /* Trip.swift */; };
+		121D1DBC2607794B00FFC1DE /* PickupControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121D1DBB2607794B00FFC1DE /* PickupControllerViewController.swift */; };
+		121D1DC026088EB900FFC1DE /* LoadingIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 121D1DBF26088EB900FFC1DE /* LoadingIndicatorView.xib */; };
+		121D1DC326088ED100FFC1DE /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121D1DC226088ED100FFC1DE /* LoadingIndicatorView.swift */; };
 		122FAD3F25E122E500D79739 /* DriverAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122FAD3E25E122E500D79739 /* DriverAnnotation.swift */; };
 		122FAD4825E127D900D79739 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122FAD4725E127D900D79739 /* Constants.swift */; };
 		122FAD4C25E15DCF00D79739 /* RideActionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 122FAD4B25E15DCF00D79739 /* RideActionView.xib */; };
@@ -53,6 +56,9 @@
 		04FA74042533D20C00C94ABD /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		09F456E5AE3081BB49065EB5 /* Pods_Ride.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Ride.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		121D1DB8260749F200FFC1DE /* Trip.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = Trip.swift; path = ../../../../Trip.swift; sourceTree = "<group>"; };
+		121D1DBB2607794B00FFC1DE /* PickupControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupControllerViewController.swift; sourceTree = "<group>"; };
+		121D1DBF26088EB900FFC1DE /* LoadingIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingIndicatorView.xib; sourceTree = "<group>"; };
+		121D1DC226088ED100FFC1DE /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
 		122FAD3E25E122E500D79739 /* DriverAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverAnnotation.swift; sourceTree = "<group>"; };
 		122FAD4725E127D900D79739 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		122FAD4B25E15DCF00D79739 /* RideActionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RideActionView.xib; sourceTree = "<group>"; };
@@ -128,6 +134,7 @@
 		04313548252FADAA0019D6D0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				121D1DBE26088E9300FFC1DE /* Indicator View */,
 				122FAD4A25E15DB800D79739 /* Ride Action View */,
 				1238192E25C477E50080F9CB /* Location Input View */,
 				1238193425C484C50080F9CB /* Location Cell */,
@@ -144,6 +151,7 @@
 				0483422E253116DA0013D3D1 /* SignupViewController.swift */,
 				04FA74042533D20C00C94ABD /* HomeViewController.swift */,
 				12B258D725DD3F7A008C0EEF /* SplashViewController.swift */,
+				121D1DBB2607794B00FFC1DE /* PickupControllerViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -157,6 +165,15 @@
 				122FAD4725E127D900D79739 /* Constants.swift */,
 			);
 			path = Utiles;
+			sourceTree = "<group>";
+		};
+		121D1DBE26088E9300FFC1DE /* Indicator View */ = {
+			isa = PBXGroup;
+			children = (
+				121D1DBF26088EB900FFC1DE /* LoadingIndicatorView.xib */,
+				121D1DC226088ED100FFC1DE /* LoadingIndicatorView.swift */,
+			);
+			path = "Indicator View";
 			sourceTree = "<group>";
 		};
 		122FAD4A25E15DB800D79739 /* Ride Action View */ = {
@@ -279,6 +296,7 @@
 				0431353D252FAA7D0019D6D0 /* Assets.xcassets in Resources */,
 				1238192725C46B460080F9CB /* LocationInputView.xib in Resources */,
 				0431353B252FAA750019D6D0 /* Main.storyboard in Resources */,
+				121D1DC026088EB900FFC1DE /* LoadingIndicatorView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -341,6 +359,8 @@
 				122FAD4825E127D900D79739 /* Constants.swift in Sources */,
 				123818E025C42D470080F9CB /* Helpers.swift in Sources */,
 				04313536252FAA750019D6D0 /* SceneDelegate.swift in Sources */,
+				121D1DBC2607794B00FFC1DE /* PickupControllerViewController.swift in Sources */,
+				121D1DC326088ED100FFC1DE /* LoadingIndicatorView.swift in Sources */,
 				042D4148253551610034D837 /* LocationCell.swift in Sources */,
 				1238194025C4A4470080F9CB /* User.swift in Sources */,
 				121D1DB9260749F200FFC1DE /* Trip.swift in Sources */,
