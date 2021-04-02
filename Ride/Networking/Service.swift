@@ -60,6 +60,12 @@ struct Service {
         }
     }
     
+    func observeDeletedTrips(trip: Trip, completion: @escaping() -> Void) {
+        tripsRef.child(trip.passengerUID).observeSingleEvent(of: .childRemoved, with: { _ in
+            completion()
+        })
+    }
+    
     func acceptTrip(trip: Trip, completion: @escaping(Error?, Trip) -> Void) {
         guard let driverUID = Auth.auth().currentUser?.uid else {return}
         let values = ["driverUID": driverUID, "state": TripState.accepted.rawValue] as [String : Any]
@@ -79,5 +85,10 @@ struct Service {
             let trip = Trip(passengerUID: snapshot.key.description, dictionary: dictionary)
             completion(trip)
         }
+    }
+    
+    func deleteTrip(completion: @escaping(Error?, DatabaseReference) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        tripsRef.child(uid).removeValue(completionBlock: completion)
     }
 }

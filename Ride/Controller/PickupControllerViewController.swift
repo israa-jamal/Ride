@@ -40,7 +40,6 @@ class PickupControllerViewController: UIViewController {
                 Helpers.alert(title: "Error", message: error?.localizedDescription ?? "Error")
             } else {
                 self.delegate?.didAcceptTrip(trip: response)
-                self.dismiss(animated: true, completion: nil)
             }
         }
     }

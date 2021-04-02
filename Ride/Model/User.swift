@@ -9,11 +9,6 @@
 import Foundation
 import CoreLocation
 
-enum UserType : Int {
-    case passenger = 0
-    case driver = 1
-}
-
 struct User {
     let uid : String
     let name : String

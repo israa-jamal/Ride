@@ -10,11 +10,6 @@ import UIKit
 import Firebase
 import MapKit
 
-enum ActionButtonState {
-    case menu
-    case backButton
-}
-
 class HomeViewController: UIViewController {
     
     //MARK: Outlets
@@ -33,7 +28,7 @@ class HomeViewController: UIViewController {
     private var actionButtonState = ActionButtonState.menu
     private var route: MKRoute?
     private var user : User?
-    
+        
     //MARK: View Lifecycle
     
     override func viewDidLoad() {
@@ -48,12 +43,13 @@ class HomeViewController: UIViewController {
         enableLocationServices()
         configureMapView()
         configureTableView()
-        configureRideActionView()
+//        configureRideActionView()
         inputActivationView.alpha = 0
         inputActivationView.addShadow()
         rideActionView.addShadow()
         map.delegate = self
         rideActionView.delegate = self
+        
     }
     
     func configureMapView() {
@@ -82,14 +78,15 @@ class HomeViewController: UIViewController {
                        }) { _ in
             UIView.animate(withDuration: 0.3, animations: {
                 self.tableView.frame.origin.y = 200
+                self.locationInputView.destinationTextField.becomeFirstResponder()
             })
         }
     }
     
-    func configureRideActionView() {
-        view.addSubview(rideActionView)
-        rideActionView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: 300)
-    }
+//    func configureRideActionView() {
+//        view.addSubview(rideActionView)
+//        rideActionView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: 300)
+//    }
     
     //MARK: Actions
     
@@ -107,13 +104,7 @@ class HomeViewController: UIViewController {
     @IBAction func actionButtonPressed(_ sender: UIButton) {
         switch actionButtonState {
         case .backButton:
-            removeAnnotationsAndOverlays()
-            map.showAnnotations(map.annotations, animated: true)
-            self.presentRideActionView(false)
-            UIView.animate(withDuration: 0.5, animations: {
-                self.inputActivationView.alpha = 1
-                self.configureActionButtonState(config: .menu)
-            })
+            dismissRideMode()
         case .menu:
             print("menu pressed")
         }
@@ -125,7 +116,18 @@ class HomeViewController: UIViewController {
         configureUI()
         getUserData()
     }
-    
+    func dismissRideMode(isDriver: Bool = false) {
+        removeAnnotationsAndOverlays()
+        map.showAnnotations(map.annotations, animated: true)
+        self.presentRideActionView(false)
+        UIView.animate(withDuration: 0.5, animations: {
+            if !isDriver{
+                self.inputActivationView.alpha = 1
+            }
+            self.configureActionButtonState(config: .menu)
+            self.centerUserLocation()
+        })
+    }
     func configureUserType() {
         guard let user = user else {return}
         if user.userType == .passenger {
@@ -159,16 +161,29 @@ class HomeViewController: UIViewController {
         }, completion: completion)
     }
     
-    func presentRideActionView(_ present: Bool) {
+    func presentRideActionView(_ present: Bool, withConfig config: RideActionViewConfig = .requestTrip, otherUser: User? = nil) {
         if present {
+            view.addSubview(rideActionView)
+            rideActionView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: 300)
             UIView.animate(withDuration: 0.3, animations: {
+                if let user = otherUser {
+                    self.rideActionView.otherUser = user
+                }
+                self.rideActionView.configureMainView(withConfig: config)
                 self.rideActionView.frame.origin.y = self.view.frame.height - 300
             })
         } else {
             UIView.animate(withDuration: 0.3, animations: {
                 self.rideActionView.frame.origin.y = self.view.frame.height
             })
+            rideActionView.removeFromSuperview()
         }
+    }
+    
+    func centerUserLocation() {
+        guard let coordinates = locationManger?.location?.coordinate else {return}
+        let region = MKCoordinateRegion(center: coordinates, latitudinalMeters: 1000, longitudinalMeters: 1000)
+        map.setRegion(region, animated: true)
     }
 }
 
@@ -302,7 +317,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
                 self.configureActionButtonState(config: .backButton)
                 let annotations = self.map.annotations.filter{!$0.isKind(of: DriverAnnotation.self)}
                 self.map.zoomToFit(annotations: annotations)
-                self.presentRideActionView(true)
+                self.presentRideActionView(true, withConfig: .requestTrip)
                 self.rideActionView.destinationNameLabel.text = placeMark.name
                 self.rideActionView.destinationAddressLabel.text = placeMark.address
                 self.rideActionView.location = placeMark.coordinate
@@ -336,6 +351,7 @@ extension HomeViewController: LocationInputViewDelegate{
 //MARK:- RideActionViewDelegate
 
 extension HomeViewController: RideActionViewDelegate {
+  
     func uploadTrip(destination: CLLocationCoordinate2D?) {
         guard let pickupCoordinates = locationManger?.location?.coordinate else {return}
         guard let destination = destination else {return}
@@ -353,18 +369,45 @@ extension HomeViewController: RideActionViewDelegate {
             }
         }
     }
+    
+    func cancelTrip() {
+        Service.shared.deleteTrip { (error, ref) in
+            if let error = error {
+                Helpers.alert(title: "Error Canceling Trip", message: error.localizedDescription)
+            } else {
+                self.dismissRideMode()
+            }
+        }
+    }
+    
 }
 
 //MARK:- PickupControllerDelegate
 
 extension HomeViewController: PickupControllerDelegate {
     func didAcceptTrip(trip: Trip) {
-        let placeMark = MKPlacemark(coordinate: trip.pickupCoordinates)
-        let destination = MKMapItem(placemark: placeMark)
-        generateRoute(toDestination: destination)
-        map.zoomToFit(annotations: map.annotations)
+        if trip.pickupCoordinates != nil {
+            let anno = MKPointAnnotation()
+            anno.coordinate = trip.pickupCoordinates
+            map.addAnnotation(anno)
+            map.selectAnnotation(anno, animated: true)
+            
+            let placeMark = MKPlacemark(coordinate: trip.pickupCoordinates)
+            let destination = MKMapItem(placemark: placeMark)
+            generateRoute(toDestination: destination)
+            map.zoomToFit(annotations: map.annotations)
+            self.dismiss(animated: true, completion: {
+                guard let uid = trip.passengerUID else {return}
+                Service.shared.fetchUserData(uid: uid) { (passenger) in
+                    self.presentRideActionView(true, withConfig: .tripAccepted, otherUser: passenger)
+                }
+            })
+        }
+        Service.shared.observeDeletedTrips(trip: trip) {
+            self.dismissRideMode(isDriver: true)
+            Helpers.alert(title: "Sorry", message: "Passenger canceled the trip")
+        }
     }
-    
 }
 
 //MARK:- Apis Calls
@@ -409,6 +452,7 @@ extension HomeViewController {
             guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PickupControllerViewController") as? PickupControllerViewController else {return}
                 vc.modalPresentationStyle = .fullScreen
             vc.trip = trip
+            vc.delegate = self
             self.present(vc, animated: true, completion: nil)
         }
     }
@@ -416,7 +460,11 @@ extension HomeViewController {
     func observeCurrentTrip() {
         Service.shared.observeCurrentTrip { trip in
             if trip.tripState == .accepted {
-                self.shouldPresentLoadingView(false)
+                guard let uid = trip.driverUID else {return}
+                Service.shared.fetchUserData(uid: uid) { (driver) in
+                    self.shouldPresentLoadingView(false)
+                    self.presentRideActionView(true, withConfig: .tripAccepted, otherUser: driver)
+                }
             }
         }
     }

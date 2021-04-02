@@ -34,6 +34,7 @@
 		1238193D25C496480080F9CB /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1238193C25C496480080F9CB /* API.swift */; };
 		1238194025C4A4470080F9CB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1238193F25C4A4470080F9CB /* User.swift */; };
 		1238194325C580D20080F9CB /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1238194225C580D20080F9CB /* LocationManager.swift */; };
+		12A45BF12615EE49001DDA0B /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A45BF02615EE49001DDA0B /* Enums.swift */; };
 		12B258D825DD3F7A008C0EEF /* SplashViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12B258D725DD3F7A008C0EEF /* SplashViewController.swift */; };
 		FF4AB69D2CB5F55E65BCAFC3 /* Pods_Ride.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09F456E5AE3081BB49065EB5 /* Pods_Ride.framework */; };
 /* End PBXBuildFile section */
@@ -69,6 +70,7 @@
 		1238193C25C496480080F9CB /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		1238193F25C4A4470080F9CB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1238194225C580D20080F9CB /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		12A45BF02615EE49001DDA0B /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		12B258D725DD3F7A008C0EEF /* SplashViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashViewController.swift; sourceTree = "<group>"; };
 		18E51DA4FF8EDEFD3FF6CE20 /* Pods-Ride.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ride.release.xcconfig"; path = "Target Support Files/Pods-Ride/Pods-Ride.release.xcconfig"; sourceTree = "<group>"; };
 		2E88201262F60B2E98D2B186 /* Pods-Ride.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Ride.debug.xcconfig"; path = "Target Support Files/Pods-Ride/Pods-Ride.debug.xcconfig"; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				123818DF25C42D470080F9CB /* Helpers.swift */,
 				1238194225C580D20080F9CB /* LocationManager.swift */,
 				122FAD4725E127D900D79739 /* Constants.swift */,
+				12A45BF02615EE49001DDA0B /* Enums.swift */,
 			);
 			path = Utiles;
 			sourceTree = "<group>";
@@ -353,6 +356,7 @@
 				04FA74052533D20C00C94ABD /* HomeViewController.swift in Sources */,
 				0431354D252FAE7D0019D6D0 /* LoginViewController.swift in Sources */,
 				04313534252FAA750019D6D0 /* AppDelegate.swift in Sources */,
+				12A45BF12615EE49001DDA0B /* Enums.swift in Sources */,
 				122FAD3F25E122E500D79739 /* DriverAnnotation.swift in Sources */,
 				0483422F253116DA0013D3D1 /* SignupViewController.swift in Sources */,
 				12B258D825DD3F7A008C0EEF /* SplashViewController.swift in Sources */,
