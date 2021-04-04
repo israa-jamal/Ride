@@ -25,5 +25,4 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
             locationManager.requestAlwaysAuthorization()
         }
     }
-    
 }

@@ -14,14 +14,16 @@ enum ActionButtonState {
 }
 
 enum UserType : Int {
-    case passenger = 0
-    case driver = 1
+    case passenger
+    case driver
 }
 enum TripState : Int{
-    case requested = 0
-    case accepted = 1
-    case inProgress = 2
-    case completed = 3
+    case requested
+    case accepted
+    case driverArrived
+    case inProgress
+    case arrivedAtDestination
+    case completed
 }
 
 enum RideActionViewConfig{
@@ -59,4 +61,8 @@ enum ActionButtonConfig : CustomStringConvertible{
     init() {
         self = .request
     }
+}
+enum AnnotationType : String {
+    case pickup
+    case destination
 }

@@ -12,6 +12,8 @@ import CoreLocation
 protocol RideActionViewDelegate {
     func uploadTrip(destination : CLLocationCoordinate2D?)
     func cancelTrip()
+    func pickupPassenger()
+    func endTrip()
 }
 
 class RideActionView : UIView {
@@ -26,11 +28,14 @@ class RideActionView : UIView {
 
     var delegate : RideActionViewDelegate?
     var location : CLLocationCoordinate2D?
-    var config = RideActionViewConfig()
     var buttonConfig = ActionButtonConfig()
     var otherUser : User?
     var trip : Trip?
-    
+    var config = RideActionViewConfig() {
+        didSet {
+            configureMainView()
+        }
+    }
     override init(frame: CGRect) {
         super.init(frame: frame)
         configureUI()
@@ -53,8 +58,9 @@ class RideActionView : UIView {
         xView.layer.cornerRadius = 30
     }
     
-    func configureMainView(withConfig config: RideActionViewConfig) {
-        self.config = config
+    private func configureMainView() {
+        self.requestRideButton.isEnabled = true
+        self.requestRideButton.alpha = 1
         if let type = otherUser?.userType {
             switch type {
             case .driver:
@@ -64,7 +70,8 @@ class RideActionView : UIView {
                     logoLabel.text = "X"
                     tripDescription.text = "RIDE X"
                 case .pickupPassenger:
-                    break
+                    destinationNameLabel.text = "Driver Has Arrived To Your Location"
+                    destinationAddressLabel.text = "Please Meet Driver At Pickup Location"
                 case .tripAccepted:
                     self.buttonConfig = .cancel
                     destinationNameLabel.text = "Driver's On His Way"
@@ -72,8 +79,14 @@ class RideActionView : UIView {
                     tripDescription.text = otherUser?.name
                 case .tripInProgress:
                     destinationNameLabel.text = "On The Route To Destination"
+                    destinationAddressLabel.text = ""
+                    self.buttonConfig = .cancel
+                    self.requestRideButton.isEnabled = false
+                    self.requestRideButton.alpha = 0.8
                 case .endTrip:
                     destinationNameLabel.text = "Arrived At Destination"
+                    self.requestRideButton.isEnabled = false
+                    self.requestRideButton.alpha = 0.8
                 }
             case .passenger:
                 switch config {
@@ -110,16 +123,12 @@ class RideActionView : UIView {
         case .cancel:
             delegate?.cancelTrip()
         case .pickup:
-            break
+            delegate?.pickupPassenger()
         case .getDirection:
             break
         case .dropOff:
-            break
+            delegate?.endTrip()
         }
-    }
-    
-    func setupView() {
-        requestRideButton.setTitle(buttonConfig.description, for: .normal)
     }
 }
 
