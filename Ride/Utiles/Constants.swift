@@ -13,4 +13,6 @@ struct K {
     static let menuImage = "Menu"
     static let backImage = "back-arrow"
     static let darkBlueColor = "DarkBlueColor"
+    static let locationCellNIB = "LocationCell"
+    static let locationReusableCell = "ReusableLocationCell"
 }

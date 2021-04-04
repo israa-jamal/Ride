@@ -50,7 +50,6 @@ class SignupViewController: UIViewController {
         userTypeSegment.setTitleTextAttributes([.foregroundColor: UIColor(named: "alphaWhite") ?? UIColor.white], for: .normal)
         userTypeSegment.setTitleTextAttributes([.foregroundColor: UIColor(named: "Background") ?? UIColor.black], for: .selected)
         passwordText.textContentType = .telephoneNumber
-
     }
     
     //MARK: Actions

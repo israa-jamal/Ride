@@ -109,6 +109,29 @@ extension UIViewController {
     @objc func dismissKeyboard() {
         view.endEditing(true)
     }
+    
+    func shouldPresentLoadingView(_ present: Bool, message: String? = nil) {
+        if present {
+            let loadingView = LoadingIndicatorView()
+            loadingView.frame = view.frame
+            loadingView.tag = 1212
+            view.addSubview(loadingView)
+            loadingView.messageLabel.text = message
+            loadingView.indicatorView.startAnimating()
+            UIView.animate(withDuration: 0.3) {
+                loadingView.alpha = 0.7
+            }
+        } else {
+            view.subviews.forEach { (subview) in
+                if subview.tag == 1212 {
+                    UIView.animate(withDuration: 0.3) {
+                        subview.alpha = 0
+                        subview.removeFromSuperview()
+                    }
+                }
+            }
+        }
+    }
 }
 //MARK: - MKPlaceMark
 

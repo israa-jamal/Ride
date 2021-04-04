@@ -496,6 +496,14 @@
                                     <action selector="actionButtonPressed:" destination="iLD-43-jwv" eventType="touchUpInside" id="0vu-cD-fZH"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FgI-4B-S6r">
+                                <rect key="frame" x="323" y="60" width="55" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <state key="normal" title="Log Out"/>
+                                <connections>
+                                    <action selector="logOut:" destination="iLD-43-jwv" eventType="touchUpInside" id="bCy-ut-T5U"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ksM-Rm-oWU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
@@ -526,6 +534,76 @@
                 </tapGestureRecognizer>
             </objects>
             <point key="canvasLocation" x="1512" y="415"/>
+        </scene>
+        <!--Pickup Controller View Controller-->
+        <scene sceneID="mpv-a7-jot">
+            <objects>
+                <viewController storyboardIdentifier="PickupControllerViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="d1o-r8-7gE" customClass="PickupControllerViewController" customModule="Ride" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="WVt-fG-TG5">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleAspectFit" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="MBI-ze-BbG">
+                                <rect key="frame" x="16" y="60" width="40" height="40"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="40" id="V3U-iA-Rb5"/>
+                                    <constraint firstAttribute="width" constant="40" id="mf6-P9-vvq"/>
+                                </constraints>
+                                <color key="tintColor" name="alphaWhite"/>
+                                <state key="normal" image="baseline_clear_white_36pt_2x"/>
+                                <connections>
+                                    <action selector="cancelButtonPressed:" destination="d1o-r8-7gE" eventType="touchUpInside" id="2aL-Pw-xo2"/>
+                                </connections>
+                            </button>
+                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="Idy-Sx-sw6">
+                                <rect key="frame" x="72" y="189" width="270" height="270"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="270" id="Ju1-dG-exC"/>
+                                    <constraint firstAttribute="height" constant="270" id="XuY-du-b3z"/>
+                                </constraints>
+                            </mapView>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Cp-Rv-MdJ">
+                                <rect key="frame" x="32" y="510.5" width="350" height="50"/>
+                                <color key="backgroundColor" name="alphaWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="50" id="Eor-0e-gRk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="20"/>
+                                <state key="normal" title="ACCEPT TRIP">
+                                    <color key="titleColor" name="Background"/>
+                                </state>
+                                <connections>
+                                    <action selector="acceptButtonPressed:" destination="d1o-r8-7gE" eventType="touchUpInside" id="I6y-f9-aHh"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Would you like to pickup this passenger?" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5wt-8u-uvk">
+                                <rect key="frame" x="59.5" y="475" width="295" height="19.5"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" name="alphaWhite"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="CI3-K9-ZoG"/>
+                        <color key="backgroundColor" name="Background"/>
+                        <constraints>
+                            <constraint firstItem="6Cp-Rv-MdJ" firstAttribute="top" secondItem="5wt-8u-uvk" secondAttribute="bottom" constant="16" id="9Wq-a9-gmA"/>
+                            <constraint firstItem="5wt-8u-uvk" firstAttribute="top" secondItem="Idy-Sx-sw6" secondAttribute="bottom" constant="16" id="9jx-Cg-f6P"/>
+                            <constraint firstItem="MBI-ze-BbG" firstAttribute="leading" secondItem="CI3-K9-ZoG" secondAttribute="leading" constant="16" id="HIe-OQ-443"/>
+                            <constraint firstItem="Idy-Sx-sw6" firstAttribute="centerX" secondItem="WVt-fG-TG5" secondAttribute="centerX" id="Nxk-wq-bbm"/>
+                            <constraint firstItem="MBI-ze-BbG" firstAttribute="top" secondItem="CI3-K9-ZoG" secondAttribute="top" constant="16" id="Tpw-WM-Q1U"/>
+                            <constraint firstItem="6Cp-Rv-MdJ" firstAttribute="leading" secondItem="CI3-K9-ZoG" secondAttribute="leading" constant="32" id="hGv-so-ntU"/>
+                            <constraint firstItem="6Cp-Rv-MdJ" firstAttribute="centerX" secondItem="WVt-fG-TG5" secondAttribute="centerX" id="lX0-Pe-wqZ"/>
+                            <constraint firstItem="Idy-Sx-sw6" firstAttribute="centerY" secondItem="WVt-fG-TG5" secondAttribute="centerY" constant="-124" id="rKU-RY-GAq"/>
+                            <constraint firstItem="5wt-8u-uvk" firstAttribute="centerX" secondItem="WVt-fG-TG5" secondAttribute="centerX" id="rnA-3E-jhm"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="map" destination="Idy-Sx-sw6" id="vv3-Hw-EFu"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="h8L-jk-qlW" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2429" y="415"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="NM9-TI-hrB">
@@ -591,6 +669,7 @@
     </scenes>
     <resources>
         <image name="Menu" width="36" height="36"/>
+        <image name="baseline_clear_white_36pt_2x" width="24" height="24"/>
         <image name="ic_account_box_white_2x" width="48" height="48"/>
         <image name="ic_lock_outline_white_2x" width="48" height="48"/>
         <image name="ic_mail_outline_white_2x" width="48" height="48"/>
