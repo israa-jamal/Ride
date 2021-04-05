@@ -62,8 +62,7 @@ class LoginViewController: UIViewController {
                 Helpers.alert(title: "There was an error signing you in", message: error.localizedDescription)
                 return
             }
-            let homeNavigationController = self.storyboard?.instantiateViewController(withIdentifier: "HomeNavigation")
-            self.view.window?.rootViewController = homeNavigationController
+            self.view.window?.rootViewController = ContainerViewController()
             self.view.window?.makeKeyAndVisible()
         }
     }

@@ -35,7 +35,7 @@ class PickupControllerViewController: UIViewController {
     
     @IBAction func acceptButtonPressed(_ sender: UIButton) {
         guard let trip = trip else {return}
-        Service.shared.acceptTrip(trip: trip) { (error, response) in
+        DriverService.shared.acceptTrip(trip: trip) { (error, response) in
             if error != nil{
                 Helpers.alert(title: "Error", message: error?.localizedDescription ?? "Error")
             } else {

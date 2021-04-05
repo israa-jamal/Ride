@@ -66,3 +66,20 @@ enum AnnotationType : String {
     case pickup
     case destination
 }
+
+enum MenuOptions: Int, CaseIterable, CustomStringConvertible {
+    case yourTrips
+    case settings
+    case logout
+    
+    var description: String {
+        switch self {
+        case .yourTrips:
+            return "Your Trips"
+        case .settings:
+            return "Settings"
+        case .logout:
+            return "Log Out"
+        }
+    }
+}
