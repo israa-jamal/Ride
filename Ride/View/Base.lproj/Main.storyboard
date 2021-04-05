@@ -13,7 +13,7 @@
         <!--Login View Controller-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="LoginViewController" customModule="Ride" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="AuthNavigation" useStoryboardIdentifierAsRestorationIdentifier="YES" id="BYZ-38-t0r" customClass="LoginViewController" customModule="Ride" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -444,7 +444,7 @@
         <!--Home View Controller-->
         <scene sceneID="9jd-4R-15b">
             <objects>
-                <viewController id="iLD-43-jwv" customClass="HomeViewController" customModule="Ride" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="HomeNavigation" useStoryboardIdentifierAsRestorationIdentifier="YES" id="iLD-43-jwv" customClass="HomeViewController" customModule="Ride" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="hi9-RQ-RVO">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -496,21 +496,25 @@
                                     <action selector="actionButtonPressed:" destination="iLD-43-jwv" eventType="touchUpInside" id="0vu-cD-fZH"/>
                                 </connections>
                             </button>
-                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="FgI-4B-S6r">
-                                <rect key="frame" x="323" y="60" width="55" height="30"/>
-                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <state key="normal" title="Log Out"/>
+                            <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UvY-Tz-1LW">
+                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.40000000000000002" colorSpace="custom" customColorSpace="sRGB"/>
+                                <gestureRecognizers/>
                                 <connections>
-                                    <action selector="logOut:" destination="iLD-43-jwv" eventType="touchUpInside" id="bCy-ut-T5U"/>
+                                    <outletCollection property="gestureRecognizers" destination="6Zt-7W-xBK" appends="YES" id="Jfd-Vr-bWY"/>
                                 </connections>
-                            </button>
+                            </view>
                         </subviews>
                         <viewLayoutGuide key="safeArea" id="ksM-Rm-oWU"/>
                         <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
+                            <constraint firstItem="ksM-Rm-oWU" firstAttribute="trailing" secondItem="UvY-Tz-1LW" secondAttribute="trailing" id="3AS-kR-3Uy"/>
                             <constraint firstItem="NEi-F9-04G" firstAttribute="leading" secondItem="ksM-Rm-oWU" secondAttribute="leading" id="3GJ-OB-q4b"/>
+                            <constraint firstAttribute="bottom" secondItem="UvY-Tz-1LW" secondAttribute="bottom" id="6vE-Vn-zX8"/>
+                            <constraint firstItem="UvY-Tz-1LW" firstAttribute="top" secondItem="hi9-RQ-RVO" secondAttribute="top" id="9kU-yv-gxW"/>
                             <constraint firstItem="NEi-F9-04G" firstAttribute="top" secondItem="hi9-RQ-RVO" secondAttribute="top" id="Hpg-Tp-ZUs"/>
                             <constraint firstItem="QrS-Wr-tcO" firstAttribute="leading" secondItem="ksM-Rm-oWU" secondAttribute="leading" constant="16" id="PUe-xt-7Y2"/>
+                            <constraint firstItem="UvY-Tz-1LW" firstAttribute="leading" secondItem="ksM-Rm-oWU" secondAttribute="leading" id="VoZ-dl-xiG"/>
                             <constraint firstItem="sWZ-pf-yD9" firstAttribute="centerX" secondItem="hi9-RQ-RVO" secondAttribute="centerX" id="WL0-Bp-tSB"/>
                             <constraint firstItem="sWZ-pf-yD9" firstAttribute="top" secondItem="QrS-Wr-tcO" secondAttribute="bottom" constant="30" id="Xrt-lZ-ZoU"/>
                             <constraint firstItem="NEi-F9-04G" firstAttribute="trailing" secondItem="ksM-Rm-oWU" secondAttribute="trailing" id="YUe-R6-Tk4"/>
@@ -524,12 +528,18 @@
                         <outlet property="actionButton" destination="QrS-Wr-tcO" id="JXi-Bf-ruZ"/>
                         <outlet property="inputActivationView" destination="sWZ-pf-yD9" id="nQT-zi-Ddb"/>
                         <outlet property="map" destination="NEi-F9-04G" id="0oP-e0-oKk"/>
+                        <outlet property="overlayView" destination="UvY-Tz-1LW" id="QZK-bG-xti"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="5sL-Ra-EYI" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
                 <tapGestureRecognizer id="hVs-v6-Cvb">
                     <connections>
                         <action selector="chooseLocation:" destination="iLD-43-jwv" id="MBo-Ld-W4H"/>
+                    </connections>
+                </tapGestureRecognizer>
+                <tapGestureRecognizer id="6Zt-7W-xBK">
+                    <connections>
+                        <action selector="tapOverlayView:" destination="iLD-43-jwv" id="so7-Iz-IeF"/>
                     </connections>
                 </tapGestureRecognizer>
             </objects>
@@ -608,7 +618,7 @@
         <!--Navigation Controller-->
         <scene sceneID="NM9-TI-hrB">
             <objects>
-                <navigationController storyboardIdentifier="HomeNavigation" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" navigationBarHidden="YES" id="kCV-dm-iWy" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" navigationBarHidden="YES" id="kCV-dm-iWy" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="eHV-zM-0E8">
                         <autoresizingMask key="autoresizingMask"/>
@@ -652,7 +662,7 @@
         <!--Navigation Controller-->
         <scene sceneID="hIA-Gj-jeK">
             <objects>
-                <navigationController storyboardIdentifier="AuthNavigation" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" navigationBarHidden="YES" id="iZ3-c8-XaA" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" navigationBarHidden="YES" id="iZ3-c8-XaA" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Q15-Fb-RSh">
                         <autoresizingMask key="autoresizingMask"/>
@@ -665,6 +675,53 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="286-Y0-ls4" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="600" y="-279"/>
+        </scene>
+        <!--Menu View Controller-->
+        <scene sceneID="1Sd-Qp-A3Y">
+            <objects>
+                <viewController storyboardIdentifier="MenuController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="MBg-TE-Ih4" customClass="MenuViewController" customModule="Ride" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="jB8-kc-Wjg">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" scrollEnabled="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="gJh-yE-M1A">
+                                <rect key="frame" x="0.0" y="44" width="414" height="852"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="414" id="S6E-FL-WcD"/>
+                                </constraints>
+                                <prototypes>
+                                    <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="MenuCell" id="OgT-6e-qvS">
+                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" preservesSuperviewLayoutMargins="YES" insetsLayoutMarginsFromSafeArea="NO" tableViewCell="OgT-6e-qvS" id="BY6-0a-mBX">
+                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                        </tableViewCellContentView>
+                                    </tableViewCell>
+                                </prototypes>
+                                <connections>
+                                    <outlet property="dataSource" destination="MBg-TE-Ih4" id="fhQ-U4-bVk"/>
+                                    <outlet property="delegate" destination="MBg-TE-Ih4" id="HEq-h8-h42"/>
+                                </connections>
+                            </tableView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="wid-Fh-KF2"/>
+                        <color key="backgroundColor" name="Background"/>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="gJh-yE-M1A" secondAttribute="bottom" id="RFx-il-bd3"/>
+                            <constraint firstItem="gJh-yE-M1A" firstAttribute="top" secondItem="wid-Fh-KF2" secondAttribute="top" id="uUD-vs-kW7"/>
+                            <constraint firstItem="gJh-yE-M1A" firstAttribute="leading" secondItem="wid-Fh-KF2" secondAttribute="leading" id="uhh-nX-qrJ"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="tableView" destination="gJh-yE-M1A" id="ns5-yk-Ed4"/>
+                        <outlet property="tableViewWidth" destination="S6E-FL-WcD" id="xGa-ul-t8H"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="CVZ-re-7Ly" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="3254" y="415"/>
         </scene>
     </scenes>
     <resources>

@@ -15,24 +15,33 @@ let usersRef = dbRef.child("users")
 let driversLocationRef = dbRef.child("drivers-locations")
 let tripsRef = dbRef.child("trips")
 
+//MARK:- Shared Services
+
 struct Service {
     
     static let shared = Service()
     
     func fetchUserData(uid: String, completion: @escaping(User) -> Void) {
         usersRef.child(uid).observeSingleEvent(of: .value) { (snapshot) in
-                guard let result = snapshot.value as? [String: Any] else { return }
-                let UID = snapshot.key
-                let user = User(uid: UID, data: result)
-                completion(user)
-            }
+            guard let result = snapshot.value as? [String: Any] else { return }
+            let UID = snapshot.key
+            let user = User(uid: UID, data: result)
+            completion(user)
+        }
     }
+}
+
+//MARK:- Passenger Services
+
+struct PassengerService {
+    
+    static let shared = PassengerService()
     
     func fetchNearbyDrivers(completion: @escaping(User) -> Void, location : CLLocation) {
         let geoFire = GeoFire(firebaseRef: driversLocationRef)
         driversLocationRef.observe(.value) { (snapshot) in
             geoFire.query(at: location, withRadius: 50).observe(.keyEntered, with: { (uid, driverLocation) in
-                fetchUserData(uid: uid) { (user) in
+                Service.shared.fetchUserData(uid: uid) { (user) in
                     var driver = user
                     driver.location = driverLocation
                     completion(driver)
@@ -49,6 +58,33 @@ struct Service {
         tripsRef.child(uid).updateChildValues(values, withCompletionBlock: completion)
     }
     
+    func observeCurrentTrip(completion: @escaping(Trip) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        tripsRef.child(uid).observe(.value) { (snapshot) in
+            guard let dictionary = snapshot.value as? [String: Any] else {return}
+            let trip = Trip(passengerUID: snapshot.key.description, dictionary: dictionary)
+            completion(trip)
+        }
+    }
+    
+    func deleteTrip(completion: @escaping(Error?, DatabaseReference) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        tripsRef.child(uid).removeValue(completionBlock: completion)
+    }
+}
+
+//MARK:- Driver Services
+
+struct DriverService {
+    
+    static let shared = DriverService()
+    
+    func updateDriverLocation(_ location : CLLocation) {
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        let geoFire = GeoFire(firebaseRef: driversLocationRef)
+        geoFire.setLocation(location, forKey: uid)
+    }
+    
     func observeTrips(completion: @escaping(Trip) -> Void) {
         tripsRef.observe(.childAdded) { (snapshot) in
             guard let dictionary = snapshot.value as? [String: Any] else {return}
@@ -57,12 +93,6 @@ struct Service {
                 completion(trip)
             }
         }
-    }
-    
-    func observeDeletedTrips(trip: Trip, completion: @escaping() -> Void) {
-        tripsRef.child(trip.passengerUID).observeSingleEvent(of: .childRemoved, with: { _ in
-            completion()
-        })
     }
     
     func acceptTrip(trip: Trip, completion: @escaping(Error?, Trip) -> Void) {
@@ -77,24 +107,10 @@ struct Service {
         }
     }
     
-    func observeCurrentTrip(completion: @escaping(Trip) -> Void) {
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-        tripsRef.child(uid).observe(.value) { (snapshot) in
-            guard let dictionary = snapshot.value as? [String: Any] else {return}
-            let trip = Trip(passengerUID: snapshot.key.description, dictionary: dictionary)
-            completion(trip)
-        }
-    }
-    
-    func deleteTrip(completion: @escaping(Error?, DatabaseReference) -> Void) {
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-        tripsRef.child(uid).removeValue(completionBlock: completion)
-    }
-    
-    func updateDriverLocation(_ location : CLLocation) {
-        guard let uid = Auth.auth().currentUser?.uid else {return}
-        let geoFire = GeoFire(firebaseRef: driversLocationRef)
-        geoFire.setLocation(location, forKey: uid)
+    func observeDeletedTrips(trip: Trip, completion: @escaping() -> Void) {
+        tripsRef.child(trip.passengerUID).observeSingleEvent(of: .childRemoved, with: { _ in
+            completion()
+        })
     }
     
     func updateTripState(_ trip: Trip, state: TripState, completion: @escaping (Error?, DatabaseReference) -> Void) {

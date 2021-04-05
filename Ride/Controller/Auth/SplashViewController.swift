@@ -15,7 +15,6 @@ class SplashViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-//        API.signOut()
         checkIfTheUserLoggedIn()
     }
     
@@ -23,7 +22,7 @@ class SplashViewController: UIViewController {
         
         if API.isUserLoggedIn() {
             DispatchQueue.main.async {
-                self.initialView = self.storyboard?.instantiateViewController(withIdentifier: "HomeNavigation") ?? HomeViewController()
+                self.initialView = ContainerViewController()
                 self.view.window?.rootViewController = self.initialView
                 self.view.window?.makeKeyAndVisible()
             }

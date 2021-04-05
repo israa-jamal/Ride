@@ -19,9 +19,10 @@ struct API {
         }
     }
     
-    static func signOut() {
+    static func signOut(completion: @escaping()->()) {
         do {
             try Auth.auth().signOut()
+            completion()
         }
         catch {
             Helpers.alert(title: "There was an error logging you out", message: error.localizedDescription)
