@@ -67,6 +67,19 @@ class ContainerViewController: UIViewController {
         menuViewController.user = user
         menuViewController.delegate = self
     }
+    func routeToSettings() {
+        let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as? SettingsViewController ?? SettingsViewController()
+        let nav = UINavigationController(rootViewController: VC)
+        nav.modalPresentationStyle = .fullScreen
+        VC.user = user
+        self.present(nav, animated: true, completion: nil)
+    }
+//    func routeToSettings() {
+//        let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as? SettingsViewController ?? SettingsViewController()
+//        let nav = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsNavigation") as? UINavigationController ?? UINavigationController()
+//        nav.modalPresentationStyle = .fullScreen
+//        present(nav, animated: true, completion: nil)
+//    }
     
     func animateStatusBar() {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
@@ -104,7 +117,7 @@ extension ContainerViewController: MenuControllerDelegate {
         case .yourTrips:
             print("Show Your Trips")
         case .settings:
-            print("Show Settings")
+            routeToSettings()
         case .logout:
             animateMenu(false) {_ in 
                 self.homeViewController.isMenuOpen = false
@@ -113,3 +126,6 @@ extension ContainerViewController: MenuControllerDelegate {
         }
     }
 }
+/*
+ 
+ */

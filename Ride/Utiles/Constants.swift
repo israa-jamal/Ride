@@ -6,7 +6,7 @@
 //  Copyright © 2021 Esraa Gamal. All rights reserved.
 //
 
-import Foundation
+import UIKit
 
 struct K {
     static let driverAnnotationReusableCell = "DriverAnnotation"
@@ -15,4 +15,5 @@ struct K {
     static let darkBlueColor = "DarkBlueColor"
     static let locationCellNIB = "LocationCell"
     static let locationReusableCell = "ReusableLocationCell"
+    static let background = UIColor(named: "Background")
 }

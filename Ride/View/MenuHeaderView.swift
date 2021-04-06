@@ -13,11 +13,26 @@ class MenuHeaderView: UITableViewHeaderFooterView {
     @IBOutlet weak var nameLabel: UILabel!
     @IBOutlet weak var emailLabel: UILabel!
     @IBOutlet weak var profilePhotoImageView: UIImageView!
+    @IBOutlet weak var backView: UIView!
+    @IBOutlet weak var mainView: UIView!
+    @IBOutlet weak var topConstraint: NSLayoutConstraint!
 
     var user : User? {
         didSet{
             nameLabel.text = user?.name
             emailLabel.text = user?.email
+        }
+    }
+    var editable = false {
+        didSet{
+            mainView.backgroundColor = .white
+            backView.backgroundColor = .white
+            nameLabel.textColor = .black
+            emailLabel.textColor = .darkGray
+            mainView.centerY(inView: backView)
+            if topConstraint != nil {
+                topConstraint.isActive = false
+            }
         }
     }
     

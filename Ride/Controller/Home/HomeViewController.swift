@@ -90,16 +90,20 @@ class HomeViewController: UIViewController {
     func configureLocationInputView() {
         locationInputView.delegate = self
         view.addSubview(locationInputView)
-        locationInputView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 200)
+//        locationInputView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 200)
+        locationInputView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        locationInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        locationInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        locationInputView.heightAnchor.constraint(equalToConstant: 200).isActive = true
         locationInputView.alpha = 0
         UIView.animate(withDuration: 0.5,
                        animations: {self.locationInputView.alpha = 1
                        }) { _ in
             UIView.animate(withDuration: 0.3, animations: {
                 self.tableView.frame.origin.y = 200
-                self.locationInputView.destinationTextField.becomeFirstResponder()
             })
         }
+        self.locationInputView.destinationTextField.becomeFirstResponder()
     }
     
     //MARK: Actions

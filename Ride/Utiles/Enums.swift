@@ -83,3 +83,26 @@ enum MenuOptions: Int, CaseIterable, CustomStringConvertible {
         }
     }
 }
+
+enum LocationType: Int, CaseIterable, CustomStringConvertible {
+    case Home
+    case Work
+    
+    var description: String {
+        switch self {
+        case .Home:
+            return "Home"
+        case .Work:
+            return "Work"
+        }
+    }
+    
+    var subtitle: String {
+        switch self {
+        case .Home:
+            return "Add Home"
+        case .Work:
+            return "Add Work"
+        }
+    }
+}

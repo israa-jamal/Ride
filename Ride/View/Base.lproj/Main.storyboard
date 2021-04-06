@@ -441,6 +441,32 @@
             </objects>
             <point key="canvasLocation" x="2429" y="-279"/>
         </scene>
+        <!--Settings-->
+        <scene sceneID="jE8-b7-3XB">
+            <objects>
+                <tableViewController storyboardIdentifier="SettingsController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="KUv-c9-dKD" customClass="SettingsViewController" customModule="Ride" customModuleProvider="target" sceneMemberID="viewController">
+                    <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" id="U2C-M1-rUW">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="756"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <color key="sectionIndexBackgroundColor" name="Background"/>
+                        <connections>
+                            <outlet property="dataSource" destination="KUv-c9-dKD" id="hZq-rV-rCd"/>
+                            <outlet property="delegate" destination="KUv-c9-dKD" id="b28-7F-4Wg"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Settings" id="K11-Rg-eBk">
+                        <barButtonItem key="leftBarButtonItem" image="baseline_clear_white_36pt_2x" id="CRK-Eq-4bK">
+                            <connections>
+                                <action selector="backButtonPressed:" destination="KUv-c9-dKD" id="Igz-pI-aIZ"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="m0m-1A-0Oz" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="4168.115942028986" y="-271.20535714285711"/>
+        </scene>
         <!--Home View Controller-->
         <scene sceneID="9jd-4R-15b">
             <objects>
@@ -722,6 +748,25 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="CVZ-re-7Ly" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="3254" y="415"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="TjR-8i-bh7">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="n9u-34-UUS" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <navigationController storyboardIdentifier="SettingsNavigation" automaticallyAdjustsScrollViewInsets="NO" useStoryboardIdentifierAsRestorationIdentifier="YES" id="W5W-pR-Y0M" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" barStyle="black" translucent="NO" largeTitles="YES" id="cKS-Va-E1d">
+                        <rect key="frame" x="0.0" y="44" width="414" height="96"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <color key="backgroundColor" name="Background"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="KUv-c9-dKD" kind="relationship" relationship="rootViewController" id="Tx8-rJ-Tbs"/>
+                    </connections>
+                </navigationController>
+            </objects>
+            <point key="canvasLocation" x="3257.971014492754" y="-271.20535714285711"/>
         </scene>
     </scenes>
     <resources>

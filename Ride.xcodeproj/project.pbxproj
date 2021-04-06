@@ -34,6 +34,8 @@
 		1238193D25C496480080F9CB /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1238193C25C496480080F9CB /* API.swift */; };
 		1238194025C4A4470080F9CB /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1238193F25C4A4470080F9CB /* User.swift */; };
 		1238194325C580D20080F9CB /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1238194225C580D20080F9CB /* LocationManager.swift */; };
+		128BDC65261C79EF0042D22D /* SettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128BDC64261C79EF0042D22D /* SettingsViewController.swift */; };
+		128BDC68261CC6350042D22D /* AddLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 128BDC67261CC6350042D22D /* AddLocationViewController.swift */; };
 		12A45BF12615EE49001DDA0B /* Enums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12A45BF02615EE49001DDA0B /* Enums.swift */; };
 		12AB5D5D261B14F7002B2832 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AB5D5C261B14F7002B2832 /* MenuViewController.swift */; };
 		12AB5D61261B162C002B2832 /* ContainerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 12AB5D60261B162C002B2832 /* ContainerViewController.swift */; };
@@ -74,6 +76,8 @@
 		1238193C25C496480080F9CB /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		1238193F25C4A4470080F9CB /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		1238194225C580D20080F9CB /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		128BDC64261C79EF0042D22D /* SettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewController.swift; sourceTree = "<group>"; };
+		128BDC67261CC6350042D22D /* AddLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddLocationViewController.swift; sourceTree = "<group>"; };
 		12A45BF02615EE49001DDA0B /* Enums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Enums.swift; sourceTree = "<group>"; };
 		12AB5D5C261B14F7002B2832 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
 		12AB5D60261B162C002B2832 /* ContainerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerViewController.swift; sourceTree = "<group>"; };
@@ -223,11 +227,21 @@
 			path = Networking;
 			sourceTree = "<group>";
 		};
+		128BDC6A261CC6390042D22D /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				128BDC64261C79EF0042D22D /* SettingsViewController.swift */,
+				128BDC67261CC6350042D22D /* AddLocationViewController.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
 		12AB5D59261B14A2002B2832 /* Side Menu */ = {
 			isa = PBXGroup;
 			children = (
 				12AB5D5C261B14F7002B2832 /* MenuViewController.swift */,
 				12AB5D60261B162C002B2832 /* ContainerViewController.swift */,
+				128BDC6A261CC6390042D22D /* Settings */,
 			);
 			path = "Side Menu";
 			sourceTree = "<group>";
@@ -394,9 +408,11 @@
 				0431354D252FAE7D0019D6D0 /* LoginViewController.swift in Sources */,
 				04313534252FAA750019D6D0 /* AppDelegate.swift in Sources */,
 				12A45BF12615EE49001DDA0B /* Enums.swift in Sources */,
+				128BDC68261CC6350042D22D /* AddLocationViewController.swift in Sources */,
 				122FAD3F25E122E500D79739 /* DriverAnnotation.swift in Sources */,
 				0483422F253116DA0013D3D1 /* SignupViewController.swift in Sources */,
 				12B258D825DD3F7A008C0EEF /* SplashViewController.swift in Sources */,
+				128BDC65261C79EF0042D22D /* SettingsViewController.swift in Sources */,
 				12AB5D66261B2571002B2832 /* MenuHeaderView.swift in Sources */,
 				122FAD4825E127D900D79739 /* Constants.swift in Sources */,
 				123818E025C42D470080F9CB /* Helpers.swift in Sources */,
