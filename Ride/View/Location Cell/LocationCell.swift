@@ -28,8 +28,4 @@ class LocationCell: UITableViewCell {
         locationLabel.text = placeMark.name
         addressLabel.text = placeMark.address
     }
-    func setupSettingsCellWithType(_ type: LocationType) {
-        locationLabel.text = type.description
-        addressLabel.text = type.subtitle
-    }
 }

@@ -105,4 +105,13 @@ enum LocationType: Int, CaseIterable, CustomStringConvertible {
             return "Add Work"
         }
     }
+    
+    var dbRef : String {
+        switch self {
+        case .Home:
+            return "homeLocation"
+        case .Work:
+            return "workLocation"
+        }
+    }
 }

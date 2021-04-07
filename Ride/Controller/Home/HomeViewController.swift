@@ -30,8 +30,12 @@ class HomeViewController: UIViewController {
     private let locationInputView = LocationInputView()
     private let rideActionView = RideActionView()
     private var searchResults : [MKPlacemark] = []
+    private var savedLocations = [MKPlacemark]()
     private var actionButtonState = ActionButtonState.menu
     private var route: MKRoute?
+    private var trip: Trip?
+    var delegate : HomeViewControllerDelegate?
+    
     var user : User? {
         didSet{
             guard let user = user else {return}
@@ -40,8 +44,6 @@ class HomeViewController: UIViewController {
         }
     }
     
-    private var trip: Trip?
-    var delegate : HomeViewControllerDelegate?
     var isMenuOpen = false {
         didSet{
             overlayView.isHidden = !isMenuOpen
@@ -92,9 +94,10 @@ class HomeViewController: UIViewController {
         view.addSubview(locationInputView)
 //        locationInputView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 200)
         locationInputView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        locationInputView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
-        locationInputView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        locationInputView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        locationInputView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         locationInputView.heightAnchor.constraint(equalToConstant: 200).isActive = true
+        locationInputView.translatesAutoresizingMaskIntoConstraints = false
         locationInputView.alpha = 0
         UIView.animate(withDuration: 0.5,
                        animations: {self.locationInputView.alpha = 1
@@ -140,6 +143,7 @@ class HomeViewController: UIViewController {
             }
             getNearbyDrivers()
             observeCurrentTrip()
+            configureSavedUserLocation()
         } else {
             observeTrips()
         }
@@ -196,6 +200,26 @@ class HomeViewController: UIViewController {
             self.centerUserLocation()
         })
     }
+    
+    func configureSavedUserLocation() {
+        savedLocations.removeAll()
+        if let homeLocation = user?.homeLocation {
+            geocodeAdressString(address: homeLocation)
+        }
+        if let workLocation = user?.workLocation {
+            geocodeAdressString(address: workLocation)
+        }
+    }
+    
+    func geocodeAdressString(address: String) {
+        let geocoder = CLGeocoder()
+        geocoder.geocodeAddressString(address) { (placemarks, error) in
+            guard let clPlacemark = placemarks?.first else {return}
+            let placemark = MKPlacemark(placemark: clPlacemark)
+            self.savedLocations.append(placemark)
+            self.tableView.reloadData()
+        }
+    }
 }
 
 //MARK:- Location Manager
@@ -203,7 +227,7 @@ class HomeViewController: UIViewController {
 extension HomeViewController : CLLocationManagerDelegate{
     
     func locationManager(_ manager: CLLocationManager, didStartMonitoringFor region: CLRegion) {
-        print(region)
+        
     }
     
     func locationManager(_ manager: CLLocationManager, didEnterRegion region: CLRegion) {
@@ -361,7 +385,7 @@ extension HomeViewController :  MKMapViewDelegate{
 extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
-        return section == 0 ? "Section 1" : "Section 2"
+        return section == 0 ? "Saved Locations" : "Search Results"
     }
     
     func numberOfSections(in tableView: UITableView) -> Int {
@@ -369,29 +393,34 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return section == 0 ? 2 : searchResults.count
+        return section == 0 ? savedLocations.count : searchResults.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: K.locationReusableCell, for: indexPath) as! LocationCell
-        if indexPath.section == 1 {
+        if indexPath.section == 0 {
+            cell.setupCellWithValues(placeMark: savedLocations[indexPath.row])
+        } else if indexPath.section == 1 {
             cell.setupCellWithValues(placeMark: searchResults[indexPath.row])
         }
         return cell
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if indexPath.section == 1 {
-            let placeMark = self.searchResults[indexPath.row]
-            generateRoute(toDestination: placeMark.coordinate)
-            dimissLocationInputView { _ in
-                self.cleanMapAndGenerateRoute(to: placeMark.coordinate)
-                self.configureActionButtonState(config: .backButton)
-                self.presentRideActionView(true, withConfig: .requestTrip)
-                self.rideActionView.destinationNameLabel.text = placeMark.name
-                self.rideActionView.destinationAddressLabel.text = placeMark.address
-                self.rideActionView.location = placeMark.coordinate
-            }
+        var placeMark = MKPlacemark()
+        if indexPath.section == 0 {
+            placeMark = self.savedLocations[indexPath.row]
+        } else if indexPath.section == 1 {
+            placeMark = self.searchResults[indexPath.row]
+        }
+        generateRoute(toDestination: placeMark.coordinate)
+        dimissLocationInputView { _ in
+            self.cleanMapAndGenerateRoute(to: placeMark.coordinate)
+            self.configureActionButtonState(config: .backButton)
+            self.presentRideActionView(true, withConfig: .requestTrip)
+            self.rideActionView.destinationNameLabel.text = placeMark.name
+            self.rideActionView.destinationAddressLabel.text = placeMark.address
+            self.rideActionView.location = placeMark.coordinate
         }
     }
 }
