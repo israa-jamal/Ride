@@ -24,6 +24,8 @@
 		121D1DBC2607794B00FFC1DE /* PickupControllerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121D1DBB2607794B00FFC1DE /* PickupControllerViewController.swift */; };
 		121D1DC026088EB900FFC1DE /* LoadingIndicatorView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 121D1DBF26088EB900FFC1DE /* LoadingIndicatorView.xib */; };
 		121D1DC326088ED100FFC1DE /* LoadingIndicatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 121D1DC226088ED100FFC1DE /* LoadingIndicatorView.swift */; };
+		122BAA84261DDEDF00411AA8 /* CircularPulsingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122BAA83261DDEDF00411AA8 /* CircularPulsingView.swift */; };
+		122BAAA1261DEE1C00411AA8 /* CircularPulsingView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 122BAAA0261DEE1C00411AA8 /* CircularPulsingView.xib */; };
 		122FAD3F25E122E500D79739 /* DriverAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122FAD3E25E122E500D79739 /* DriverAnnotation.swift */; };
 		122FAD4825E127D900D79739 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 122FAD4725E127D900D79739 /* Constants.swift */; };
 		122FAD4C25E15DCF00D79739 /* RideActionView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 122FAD4B25E15DCF00D79739 /* RideActionView.xib */; };
@@ -66,6 +68,8 @@
 		121D1DBB2607794B00FFC1DE /* PickupControllerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PickupControllerViewController.swift; sourceTree = "<group>"; };
 		121D1DBF26088EB900FFC1DE /* LoadingIndicatorView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = LoadingIndicatorView.xib; sourceTree = "<group>"; };
 		121D1DC226088ED100FFC1DE /* LoadingIndicatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingIndicatorView.swift; sourceTree = "<group>"; };
+		122BAA83261DDEDF00411AA8 /* CircularPulsingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularPulsingView.swift; sourceTree = "<group>"; };
+		122BAAA0261DEE1C00411AA8 /* CircularPulsingView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CircularPulsingView.xib; sourceTree = "<group>"; };
 		122FAD3E25E122E500D79739 /* DriverAnnotation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DriverAnnotation.swift; sourceTree = "<group>"; };
 		122FAD4725E127D900D79739 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		122FAD4B25E15DCF00D79739 /* RideActionView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = RideActionView.xib; sourceTree = "<group>"; };
@@ -148,14 +152,15 @@
 		04313548252FADAA0019D6D0 /* View */ = {
 			isa = PBXGroup;
 			children = (
+				122BAAA0261DEE1C00411AA8 /* CircularPulsingView.xib */,
 				0431353E252FAA7D0019D6D0 /* LaunchScreen.storyboard */,
 				04313539252FAA750019D6D0 /* Main.storyboard */,
+				122BAA83261DDEDF00411AA8 /* CircularPulsingView.swift */,
 				121D1DBE26088E9300FFC1DE /* Indicator View */,
 				122FAD4A25E15DB800D79739 /* Ride Action View */,
 				1238192E25C477E50080F9CB /* Location Input View */,
 				1238193425C484C50080F9CB /* Location Cell */,
-				12AB5D64261B2571002B2832 /* MenuHeaderView.swift */,
-				12AB5D65261B2571002B2832 /* MenuHeaderView.xib */,
+				122BAA82261DDEC100411AA8 /* Menu Header */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -189,6 +194,15 @@
 				121D1DC226088ED100FFC1DE /* LoadingIndicatorView.swift */,
 			);
 			path = "Indicator View";
+			sourceTree = "<group>";
+		};
+		122BAA82261DDEC100411AA8 /* Menu Header */ = {
+			isa = PBXGroup;
+			children = (
+				12AB5D64261B2571002B2832 /* MenuHeaderView.swift */,
+				12AB5D65261B2571002B2832 /* MenuHeaderView.xib */,
+			);
+			path = "Menu Header";
 			sourceTree = "<group>";
 		};
 		122FAD4A25E15DB800D79739 /* Ride Action View */ = {
@@ -350,6 +364,7 @@
 				1238192725C46B460080F9CB /* LocationInputView.xib in Resources */,
 				0431353B252FAA750019D6D0 /* Main.storyboard in Resources */,
 				121D1DC026088EB900FFC1DE /* LoadingIndicatorView.xib in Resources */,
+				122BAAA1261DEE1C00411AA8 /* CircularPulsingView.xib in Resources */,
 				12AB5D67261B2571002B2832 /* MenuHeaderView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -428,6 +443,7 @@
 				042D413F2535251B0034D837 /* Extensions.swift in Sources */,
 				122FAD5025E15DEA00D79739 /* RideActionView.swift in Sources */,
 				042D414125352B0C0034D837 /* LocationInputView.swift in Sources */,
+				122BAA84261DDEDF00411AA8 /* CircularPulsingView.swift in Sources */,
 				1238194325C580D20080F9CB /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

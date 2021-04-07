@@ -16,11 +16,14 @@ class MenuHeaderView: UITableViewHeaderFooterView {
     @IBOutlet weak var backView: UIView!
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
+    @IBOutlet weak var initialLabel: UILabel!
 
     var user : User? {
         didSet{
             nameLabel.text = user?.name
             emailLabel.text = user?.email
+            guard let user = user else {return}
+            initialLabel.text = String(user.name.prefix(1))
         }
     }
     var editable = false {

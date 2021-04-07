@@ -407,12 +407,7 @@ extension HomeViewController: UITableViewDelegate, UITableViewDataSource{
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        var placeMark = MKPlacemark()
-        if indexPath.section == 0 {
-            placeMark = self.savedLocations[indexPath.row]
-        } else if indexPath.section == 1 {
-            placeMark = self.searchResults[indexPath.row]
-        }
+        let placeMark = indexPath.section == 0 ? savedLocations[indexPath.row] : searchResults[indexPath.row]
         generateRoute(toDestination: placeMark.coordinate)
         dimissLocationInputView { _ in
             self.cleanMapAndGenerateRoute(to: placeMark.coordinate)
@@ -561,11 +556,14 @@ extension HomeViewController {
     
     func observeCurrentTrip() {
         PassengerService.shared.observeCurrentTrip { trip in
-            guard let uid = trip.driverUID else {return}
             switch trip.tripState {
-            case .requested:
-                break
+            case .denied:
+                self.shouldPresentLoadingView(false)
+                self.removeAnnotationsAndOverlays()
+                self.cancelTrip()
+                self.centerUserLocation()
             case .accepted:
+                guard let uid = trip.driverUID else {return}
                 var annotations = [MKAnnotation]()
                 self.map.annotations.forEach { (annotation) in
                     if let anno = annotation as? DriverAnnotation {

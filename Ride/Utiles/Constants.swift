@@ -16,4 +16,5 @@ struct K {
     static let locationCellNIB = "LocationCell"
     static let locationReusableCell = "ReusableLocationCell"
     static let background = UIColor(named: "Background")
+    static let blueColor = UIColor(named: "Button") ?? #colorLiteral(red: 0.01960784314, green: 0.3647058824, blue: 0.6235294118, alpha: 1)
 }

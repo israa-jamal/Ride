@@ -46,12 +46,20 @@
                                         </label>
                                     </subviews>
                                 </stackView>
+                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="E" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5hz-KX-1rJ">
+                                    <rect key="frame" x="32" y="11" width="24.5" height="50.5"/>
+                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="42"/>
+                                    <nil key="textColor"/>
+                                    <nil key="highlightedColor"/>
+                                </label>
                             </subviews>
                             <color key="backgroundColor" name="Background"/>
                             <constraints>
                                 <constraint firstItem="whe-XQ-24h" firstAttribute="top" secondItem="QOI-T8-Nqb" secondAttribute="top" constant="4" id="5La-o5-SP5"/>
+                                <constraint firstItem="5hz-KX-1rJ" firstAttribute="centerX" secondItem="whe-XQ-24h" secondAttribute="centerX" id="FYA-Je-Zke"/>
                                 <constraint firstItem="whe-XQ-24h" firstAttribute="leading" secondItem="QOI-T8-Nqb" secondAttribute="leading" constant="12" id="I5q-Ya-BrC"/>
                                 <constraint firstItem="OKT-4E-iFZ" firstAttribute="centerY" secondItem="whe-XQ-24h" secondAttribute="centerY" id="MCF-su-zs5"/>
+                                <constraint firstItem="5hz-KX-1rJ" firstAttribute="centerY" secondItem="whe-XQ-24h" secondAttribute="centerY" id="SDK-5e-uet"/>
                                 <constraint firstAttribute="bottom" secondItem="whe-XQ-24h" secondAttribute="bottom" constant="4" id="ihP-E1-TfI"/>
                                 <constraint firstItem="OKT-4E-iFZ" firstAttribute="leading" secondItem="whe-XQ-24h" secondAttribute="trailing" constant="12" id="p5L-fp-rR2"/>
                             </constraints>
@@ -76,6 +84,7 @@
             <connections>
                 <outlet property="backView" destination="g9h-Mu-1g7" id="VJp-rG-krC"/>
                 <outlet property="emailLabel" destination="Ju7-Y9-Qeb" id="ovG-kh-oLB"/>
+                <outlet property="initialLabel" destination="5hz-KX-1rJ" id="fjS-9w-wG1"/>
                 <outlet property="mainView" destination="QOI-T8-Nqb" id="WVG-4k-mdA"/>
                 <outlet property="nameLabel" destination="a55-PH-CcP" id="EzP-eE-VP4"/>
                 <outlet property="profilePhotoImageView" destination="whe-XQ-24h" id="sLy-Ox-6uQ"/>
