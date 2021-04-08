@@ -64,12 +64,17 @@
                                 <constraint firstItem="OKT-4E-iFZ" firstAttribute="leading" secondItem="whe-XQ-24h" secondAttribute="trailing" constant="12" id="p5L-fp-rR2"/>
                             </constraints>
                         </view>
+                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cS1-G4-PIe">
+                            <rect key="frame" x="19.5" y="145" width="51" height="31"/>
+                        </switch>
                     </subviews>
                     <color key="backgroundColor" name="Background"/>
                     <constraints>
+                        <constraint firstAttribute="bottom" secondItem="cS1-G4-PIe" secondAttribute="bottom" constant="30" id="Cex-RY-S1p"/>
                         <constraint firstItem="QOI-T8-Nqb" firstAttribute="leading" secondItem="g9h-Mu-1g7" secondAttribute="leading" id="JXo-9M-xp2"/>
                         <constraint firstAttribute="trailing" secondItem="QOI-T8-Nqb" secondAttribute="trailing" id="M1p-aM-slg"/>
                         <constraint firstItem="QOI-T8-Nqb" firstAttribute="top" secondItem="g9h-Mu-1g7" secondAttribute="top" id="ebo-4u-8fT"/>
+                        <constraint firstItem="cS1-G4-PIe" firstAttribute="centerX" secondItem="whe-XQ-24h" secondAttribute="centerX" id="fAi-8F-Tqy"/>
                     </constraints>
                 </view>
             </subviews>

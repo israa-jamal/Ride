@@ -562,6 +562,7 @@ extension HomeViewController {
                 self.removeAnnotationsAndOverlays()
                 self.cancelTrip()
                 self.centerUserLocation()
+                self.actionButton.isHidden = false
             case .accepted:
                 guard let uid = trip.driverUID else {return}
                 var annotations = [MKAnnotation]()
