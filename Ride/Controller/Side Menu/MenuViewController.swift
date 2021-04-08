@@ -49,7 +49,9 @@ class MenuViewController: UIViewController, UITableViewDelegate, UITableViewData
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard let option = MenuOptions(rawValue: indexPath.row) else {return}
-        delegate?.didSelect(option: option) 
+        delegate?.didSelect(option: option)
+        tableView.deselectRow(at: indexPath, animated: true)
+
     }
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
