@@ -483,6 +483,7 @@ extension HomeViewController: RideActionViewDelegate {
     
     func endTrip() {
         guard let trip = trip else {return}
+        self.actionButton.isHidden = false
         DriverService.shared.updateTripState(trip, state: .completed) { (error, ref) in
             if let error = error {
                 Helpers.alert(title: "Error", message: error.localizedDescription)
@@ -599,6 +600,7 @@ extension HomeViewController {
     }
     
     func deleteTrip() {
+        self.actionButton.isHidden = false
         PassengerService.shared.deleteTrip { (error, ref) in
             if let error = error {
                 Helpers.alert(title: "Error Ending Trip", message: error.localizedDescription)
