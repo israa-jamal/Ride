@@ -15,7 +15,11 @@ struct User {
     let email : String
     var userType : UserType!
     var location : CLLocation?
-
+    var homeLocation: String?
+    var workLocation: String?
+    var home: String?
+    var work: String?
+    
     init(uid: String, data: [String: Any]) {
         self.name = data["fullName"] as? String ?? ""
         self.email = data["email"] as? String ?? ""
@@ -23,5 +27,15 @@ struct User {
         if let index = data["accountType"] as? Int {
             self.userType = UserType(rawValue: index)
         }
+        if let home = data["Home"] as? String, let homeLocation = data["homeLocation"] as? String {
+            self.home = home
+            self.homeLocation = homeLocation
+
+        }
+        if let work = data["Work"] as? String, let workLocation = data["workLocation"] as? String {
+            self.work = work
+            self.workLocation = workLocation
+        }
+      
     }
 }

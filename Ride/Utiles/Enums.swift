@@ -19,6 +19,7 @@ enum UserType : Int {
 }
 enum TripState : Int{
     case requested
+    case denied
     case accepted
     case driverArrived
     case inProgress
@@ -80,6 +81,38 @@ enum MenuOptions: Int, CaseIterable, CustomStringConvertible {
             return "Settings"
         case .logout:
             return "Log Out"
+        }
+    }
+}
+
+enum LocationType: Int, CaseIterable, CustomStringConvertible {
+    case Home
+    case Work
+    
+    var description: String {
+        switch self {
+        case .Home:
+            return "Home"
+        case .Work:
+            return "Work"
+        }
+    }
+    
+    var subtitle: String {
+        switch self {
+        case .Home:
+            return "Add Home"
+        case .Work:
+            return "Add Work"
+        }
+    }
+    
+    var dbRef : String {
+        switch self {
+        case .Home:
+            return "homeLocation"
+        case .Work:
+            return "workLocation"
         }
     }
 }

@@ -71,6 +71,17 @@ struct PassengerService {
         guard let uid = Auth.auth().currentUser?.uid else {return}
         tripsRef.child(uid).removeValue(completionBlock: completion)
     }
+    
+    func saveLocation(locationName: String, locationValue: String, type: LocationType, completion: @escaping(Error?, DatabaseReference) -> Void) {
+        guard let uid = Auth.auth().currentUser?.uid else {return}
+        usersRef.child(uid).child(type.description).setValue(locationName) { (error, ref) in
+            if let error = error {
+                completion(error, ref)
+            } else {
+                usersRef.child(uid).child(type.dbRef).setValue(locationValue, withCompletionBlock: completion)
+            }
+        }
+    }
 }
 
 //MARK:- Driver Services

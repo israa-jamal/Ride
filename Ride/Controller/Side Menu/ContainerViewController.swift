@@ -17,8 +17,8 @@ class ContainerViewController: UIViewController {
     private var user : User? {
         didSet{
             guard let user = user else {return}
-            self.initiateHomeController(withUser: user)
-            self.initiateMenuController(withUser: user)
+            homeViewController.user = user
+            menuViewController.user = user
         }
     }
     
@@ -32,6 +32,8 @@ class ContainerViewController: UIViewController {
     func getUserData() {
         guard let uid = Auth.auth().currentUser?.uid else {return}
         Service.shared.fetchUserData(uid: uid) { user in
+            self.initiateHomeController()
+            self.initiateMenuController()
             self.user = user
         }
     }
@@ -50,23 +52,35 @@ class ContainerViewController: UIViewController {
     
     //MARK:- Helpers
     
-    func initiateHomeController(withUser user : User) {
+    func initiateHomeController() {
         homeViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "HomeNavigation") as? HomeViewController ?? HomeViewController()
         addChild(homeViewController)
         homeViewController.didMove(toParent: self)
         view.addSubview(homeViewController.view)
         homeViewController.delegate = self
-        homeViewController.user = user
     }
     
-    func initiateMenuController(withUser user : User) {
+    func initiateMenuController() {
         menuViewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "MenuController") as? MenuViewController ?? MenuViewController()
         addChild(menuViewController)
         menuViewController.didMove(toParent: self)
         view.insertSubview(menuViewController.view, at: 0)
-        menuViewController.user = user
         menuViewController.delegate = self
     }
+    func routeToSettings() {
+        let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as? SettingsViewController ?? SettingsViewController()
+        let nav = UINavigationController(rootViewController: VC)
+        nav.modalPresentationStyle = .fullScreen
+        VC.user = user
+        VC.delegate = self
+        self.present(nav, animated: true, completion: nil)
+    }
+//    func routeToSettings() {
+//        let VC = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsController") as? SettingsViewController ?? SettingsViewController()
+//        let nav = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "SettingsNavigation") as? UINavigationController ?? UINavigationController()
+//        nav.modalPresentationStyle = .fullScreen
+//        present(nav, animated: true, completion: nil)
+//    }
     
     func animateStatusBar() {
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 0.8, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
@@ -104,12 +118,19 @@ extension ContainerViewController: MenuControllerDelegate {
         case .yourTrips:
             print("Show Your Trips")
         case .settings:
-            print("Show Settings")
+            routeToSettings()
         case .logout:
             animateMenu(false) {_ in 
                 self.homeViewController.isMenuOpen = false
                 self.logOut()
             }
         }
+    }
+}
+//MARK:- SettingsControllerDelegate
+
+extension ContainerViewController : SettingsControllerDelegate {
+    func updateUser(_ viewController: SettingsViewController) {
+        self.user = viewController.user!
     }
 }
