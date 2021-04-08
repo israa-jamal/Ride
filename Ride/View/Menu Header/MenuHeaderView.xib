@@ -65,12 +65,12 @@
                             </constraints>
                         </view>
                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cS1-G4-PIe">
-                            <rect key="frame" x="19.5" y="145" width="51" height="31"/>
+                            <rect key="frame" x="19.5" y="155" width="51" height="31"/>
                         </switch>
                     </subviews>
                     <color key="backgroundColor" name="Background"/>
                     <constraints>
-                        <constraint firstAttribute="bottom" secondItem="cS1-G4-PIe" secondAttribute="bottom" constant="30" id="Cex-RY-S1p"/>
+                        <constraint firstAttribute="bottom" secondItem="cS1-G4-PIe" secondAttribute="bottom" constant="20" id="Cex-RY-S1p"/>
                         <constraint firstItem="QOI-T8-Nqb" firstAttribute="leading" secondItem="g9h-Mu-1g7" secondAttribute="leading" id="JXo-9M-xp2"/>
                         <constraint firstAttribute="trailing" secondItem="QOI-T8-Nqb" secondAttribute="trailing" id="M1p-aM-slg"/>
                         <constraint firstItem="QOI-T8-Nqb" firstAttribute="top" secondItem="g9h-Mu-1g7" secondAttribute="top" id="ebo-4u-8fT"/>
@@ -90,6 +90,7 @@
                 <outlet property="backView" destination="g9h-Mu-1g7" id="VJp-rG-krC"/>
                 <outlet property="emailLabel" destination="Ju7-Y9-Qeb" id="ovG-kh-oLB"/>
                 <outlet property="initialLabel" destination="5hz-KX-1rJ" id="fjS-9w-wG1"/>
+                <outlet property="isAcceptingTripsSwitch" destination="cS1-G4-PIe" id="ViA-cm-ErL"/>
                 <outlet property="mainView" destination="QOI-T8-Nqb" id="WVG-4k-mdA"/>
                 <outlet property="nameLabel" destination="a55-PH-CcP" id="EzP-eE-VP4"/>
                 <outlet property="profilePhotoImageView" destination="whe-XQ-24h" id="sLy-Ox-6uQ"/>

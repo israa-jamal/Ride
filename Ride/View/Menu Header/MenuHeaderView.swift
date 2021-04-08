@@ -17,17 +17,22 @@ class MenuHeaderView: UITableViewHeaderFooterView {
     @IBOutlet weak var mainView: UIView!
     @IBOutlet weak var topConstraint: NSLayoutConstraint!
     @IBOutlet weak var initialLabel: UILabel!
-
+    @IBOutlet weak var isAcceptingTripsSwitch: UISwitch!
+    
     var user : User? {
         didSet{
             nameLabel.text = user?.name
             emailLabel.text = user?.email
             guard let user = user else {return}
+            if user.userType == .passenger {
+                isAcceptingTripsSwitch.isHidden = true
+            }
             initialLabel.text = String(user.name.prefix(1))
         }
     }
     var editable = false {
         didSet{
+            isAcceptingTripsSwitch.isHidden = true
             mainView.backgroundColor = .white
             backView.backgroundColor = .white
             nameLabel.textColor = .black
