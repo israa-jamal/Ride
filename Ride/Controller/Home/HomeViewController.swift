@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 import MapKit
+import UserNotifications
 
 protocol HomeViewControllerDelegate {
     func handleMenuSliding(shouldSlide: Bool)
@@ -35,7 +36,9 @@ class HomeViewController: UIViewController {
     private var route: MKRoute?
     private var trip: Trip?
     var delegate : HomeViewControllerDelegate?
-    
+    let userNotificationCenter = UNUserNotificationCenter.current()
+    let notificationContent = UNMutableNotificationContent()
+
     var user : User? {
         didSet{
             guard let user = user else {return}
@@ -54,6 +57,7 @@ class HomeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        requestNotificationAuthorization()
         hideKeyboardWhenTappedAround()
         configureUI()
     }
@@ -70,7 +74,7 @@ class HomeViewController: UIViewController {
         rideActionView.addShadow()
         map.delegate = self
         rideActionView.delegate = self
-        
+        userNotificationCenter.delegate = self
     }
     
     func configureMapView() {
@@ -92,7 +96,6 @@ class HomeViewController: UIViewController {
     func configureLocationInputView() {
         locationInputView.delegate = self
         view.addSubview(locationInputView)
-//        locationInputView.anchor(top: view.topAnchor, left: view.leftAnchor, right: view.rightAnchor, height: 200)
         locationInputView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         locationInputView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         locationInputView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -521,6 +524,7 @@ extension HomeViewController: PickupControllerDelegate {
             self.dismissRideMode(isDriver: true)
             self.trip = nil
             Helpers.alert(title: "Sorry", message: "Passenger canceled the trip")
+            self.sendNotification(title: "Ride Canceled", body: "Sorry but the passenger canceled the trip")
         }
     }
 }
@@ -564,7 +568,9 @@ extension HomeViewController {
                 self.cancelTrip()
                 self.centerUserLocation()
                 self.actionButton.isHidden = false
+                self.sendNotification(title: "Ride Denied", body: "Sorry but the available driver didn't accept your ride")
             case .accepted:
+                self.sendNotification(title: "Ride Accepted", body: "The driver has accepted your ride request, please wait until he arrives")
                 guard let uid = trip.driverUID else {return}
                 var annotations = [MKAnnotation]()
                 self.map.annotations.forEach { (annotation) in
@@ -586,11 +592,13 @@ extension HomeViewController {
                     self.actionButton.isHidden = true
                 }
             case .driverArrived:
+                self.sendNotification(title: "Driver Arrived", body: "Driver arrived, please go to the pickup location")
                 self.rideActionView.config = .pickupPassenger
             case .inProgress:
                 self.rideActionView.config = .tripInProgress
             case .arrivedAtDestination:
                 self.rideActionView.config = .endTrip
+                self.sendNotification(title: "Arrived Destination", body: "You have reached your destination, thanks for riding with us")
             case .completed:
                 self.deleteTrip()
             default:
@@ -613,17 +621,18 @@ extension HomeViewController {
     }
     
     //MARK: Driver APIs
-
+    
     func observeTrips() {
         DriverService.shared.observeTrips { (trip) in
+            self.sendNotification(title: "A new request", body: "Hurry up to accept the ride request!")
             guard let vc = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PickupControllerViewController") as? PickupControllerViewController else {return}
-                vc.modalPresentationStyle = .fullScreen
+            vc.modalPresentationStyle = .fullScreen
             vc.trip = trip
             vc.delegate = self
             self.present(vc, animated: true, completion: nil)
         }
     }
-   
+    
     func startTrip() {
         guard let trip = trip else {return}
         DriverService.shared.updateTripState(trip, state: .inProgress) { (error, ref) in
@@ -639,4 +648,49 @@ extension HomeViewController {
     }
 }
 
+//MARK:- Notifications
 
+extension HomeViewController : UNUserNotificationCenterDelegate {
+    
+    func userNotificationCenter(_ center: UNUserNotificationCenter, didReceive response: UNNotificationResponse, withCompletionHandler completionHandler: @escaping () -> Void) {
+        completionHandler()
+    }
+
+    func userNotificationCenter(_ center: UNUserNotificationCenter, willPresent notification: UNNotification, withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
+        completionHandler([.alert, .badge, .sound])
+    }
+    
+    func application(_ application: UIApplication, didReceive notification: UNNotificationRequest) {
+        UIApplication.shared.applicationIconBadgeNumber = 0
+    }
+    
+    //Helpers
+    
+    func requestNotificationAuthorization() {
+        let authOptions = UNAuthorizationOptions.init(arrayLiteral: .alert, .badge, .sound)
+        self.userNotificationCenter.requestAuthorization(options: authOptions) { (success, error) in
+            if let error = error {
+                Helpers.alert(title: "Error", message: error.localizedDescription)
+            }
+        }
+        
+    }
+    
+    func sendNotification(title: String, body: String) {
+        notificationContent.title = title
+        notificationContent.body = body
+        notificationContent.badge = NSNumber(value: 3)
+        
+//        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 0,
+//                                                        repeats: false)
+        let request = UNNotificationRequest(identifier: "notify",
+                                            content: notificationContent,
+                                            trigger: nil)
+        userNotificationCenter.add(request) { (error) in
+            if let error = error {
+                Helpers.alert(title: "Error", message: error.localizedDescription)
+            }
+        }
+    }
+    
+}

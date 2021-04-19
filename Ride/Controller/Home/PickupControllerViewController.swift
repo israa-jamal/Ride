@@ -52,7 +52,7 @@ class PickupControllerViewController: UIViewController {
     }
     func animateProgress() {
         circularView.animatingPulsinLayer()
-        circularView.setProgressWithAnimation(duration: 7, value: 0) {
+        circularView.setProgressWithAnimation(duration: 15, value: 0) {
             if self.denied {
                 self.denyTrip()
             }
